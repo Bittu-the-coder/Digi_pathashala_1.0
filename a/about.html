@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us | EduLearn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                light: "#4f46e5",
+                DEFAULT: "#4338ca",
+                dark: "#3730a3",
+              },
+              secondary: {
+                light: "#ec4899",
+                DEFAULT: "#db2777",
+                dark: "#be185d",
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <link href="css/styles.css" rel="stylesheet" />
+  </head>
+  <body class="font-sans antialiased text-gray-800 bg-gray-50">
+    <!-- Navigation -->
+    <nav class="gradient-bg text-white shadow-lg">
+      <div class="container mx-auto px-6 py-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <a href="index.html" class="text-2xl font-bold gradient-text"
+              >EduLearn</a
+            >
+            <div class="hidden md:flex space-x-6">
+              <a href="index.html" class="hover:text-gray-200 transition"
+                >Home</a
+              >
+              <a
+                href="index.html#courses"
+                class="hover:text-gray-200 transition"
+                >Courses</a
+              >
+              <a href="features.html" class="hover:text-gray-200 transition"
+                >Features</a
+              >
+              <a href="about.html" class="hover:text-gray-200 transition"
+                >About</a
+              >
+              <a href="contact.html" class="hover:text-gray-200 transition"
+                >Contact</a
+              >
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <button
+              class="px-4 py-2 rounded-md bg-white text-primary-dark font-medium hover:bg-gray-100 transition"
+            >
+              Login
+            </button>
+            <button
+              class="px-4 py-2 rounded-md bg-secondary-dark text-white font-medium hover:bg-secondary-light transition"
+            >
+              Sign Up
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- About Hero -->
+    <section class="hero-gradient text-white py-20">
+      <div class="container mx-auto px-6 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">About EduLearn</h1>
+        <p class="text-xl mb-8 max-w-2xl mx-auto">
+          Empowering learners worldwide through accessible, high-quality
+          education
+        </p>
+      </div>
+    </section>
+
+    <!-- Our Story -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto text-center mb-12">
+          <h2 class="text-3xl font-bold mb-6">Our Story</h2>
+          <p class="text-gray-600">
+            Founded in 2015, EduLearn began as a small team of educators and
+            technologists passionate about making quality education accessible
+            to everyone. What started as a handful of programming courses has
+            grown into a comprehensive learning platform with thousands of
+            courses across diverse subjects.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          <div class="text-center">
+            <div class="text-5xl font-bold gradient-text mb-2">10M+</div>
+            <p class="text-gray-600">Learners worldwide</p>
+          </div>
+          <div class="text-center">
+            <div class="text-5xl font-bold gradient-text mb-2">50K+</div>
+            <p class="text-gray-600">Courses available</p>
+          </div>
+          <div class="text-center">
+            <div class="text-5xl font-bold gradient-text mb-2">150+</div>
+            <p class="text-gray-600">Countries reached</p>
+          </div>
+        </div>
+
+        <div class="max-w-4xl mx-auto">
+          <img
+            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+            alt="Our Team"
+            class="w-full rounded-lg shadow-xl mb-8"
+          />
+          <div class="prose max-w-none">
+            <p>
+              Our mission is to democratize education by breaking down barriers
+              to learning. We believe that education is a fundamental right, not
+              a privilege, and we're committed to creating opportunities for
+              anyone with an internet connection to develop new skills and
+              advance their careers.
+            </p>
+            <p>
+              What sets EduLearn apart is our focus on practical, job-ready
+              skills taught by industry experts. Our courses are designed to
+              help learners achieve tangible outcomes, whether that's landing a
+              new job, starting a business, or simply exploring a new passion.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Team -->
+    <section class="py-16 bg-gray-50">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold mb-4">Meet Our Leadership Team</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            The passionate educators and innovators driving our mission forward
+          </p>
+        </div>
+
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+        >
+          <!-- Team Member 1 -->
+          <div
+            class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition"
+          >
+            <img
+              src="https://randomuser.me/api/portraits/women/65.jpg"
+              alt="Team Member"
+              class="w-full h-64 object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-1">Sarah Johnson</h3>
+              <p class="text-primary-dark font-medium mb-3">CEO & Founder</p>
+              <p class="text-gray-600 text-sm">
+                Former educator with 15+ years of experience in online learning
+              </p>
+            </div>
+          </div>
+
+          <!-- Team Member 2 -->
+          <div
+            class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition"
+          >
+            <img
+              src="https://randomuser.me/api/portraits/men/32.jpg"
+              alt="Team Member"
+              class="w-full h-64 object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-1">Michael Chen</h3>
+              <p class="text-primary-dark font-medium mb-3">CTO</p>
+              <p class="text-gray-600 text-sm">
+                Technology leader passionate about educational innovation
+              </p>
+            </div>
+          </div>
+
+          <!-- Team Member 3 -->
+          <div
+            class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition"
+          >
+            <img
+              src="https://randomuser.me/api/portraits/women/44.jpg"
+              alt="Team Member"
+              class="w-full h-64 object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-1">Emma Rodriguez</h3>
+              <p class="text-primary-dark font-medium mb-3">Head of Learning</p>
+              <p class="text-gray-600 text-sm">
+                Curriculum designer focused on effective learning outcomes
+              </p>
+            </div>
+          </div>
+
+          <!-- Team Member 4 -->
+          <div
+            class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition"
+          >
+            <img
+              src="https://randomuser.me/api/portraits/men/75.jpg"
+              alt="Team Member"
+              class="w-full h-64 object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-1">David Kim</h3>
+              <p class="text-primary-dark font-medium mb-3">
+                Head of Instructor Success
+              </p>
+              <p class="text-gray-600 text-sm">
+                Dedicated to supporting our global instructor community
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Values -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold mb-4">Our Values</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            The principles that guide everything we do
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Value 1 -->
+          <div class="p-6 rounded-lg card-gradient text-center">
+            <div
+              class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <svg
+                class="h-8 w-8 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Accessibility</h3>
+            <p class="text-gray-600">
+              We believe education should be available to everyone, regardless
+              of location or financial situation.
+            </p>
+          </div>
+
+          <!-- Value 2 -->
+          <div class="p-6 rounded-lg card-gradient text-center">
+            <div
+              class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <svg
+                class="h-8 w-8 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Quality</h3>
+            <p class="text-gray-600">
+              We maintain rigorous standards for course content and instructor
+              qualifications.
+            </p>
+          </div>
+
+          <!-- Value 3 -->
+          <div class="p-6 rounded-lg card-gradient text-center">
+            <div
+              class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <svg
+                class="h-8 w-8 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Community</h3>
+            <p class="text-gray-600">
+              We foster connections between learners and instructors to create
+              meaningful learning experiences.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="gradient-bg text-white py-16">
+      <div class="container mx-auto px-6 text-center">
+        <h2 class="text-3xl font-bold mb-6">Ready to Transform Your Career?</h2>
+        <p class="text-xl mb-8 max-w-2xl mx-auto">
+          Join thousands of students who have accelerated their careers with our
+          courses
+        </p>
+        <button
+          class="px-8 py-3 rounded-md bg-white text-primary-dark font-bold hover:bg-gray-100 transition"
+        >
+          Get Started Today
+        </button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <!-- Footer content (same as in index.html) -->
+        </div>
+        <div
+          class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400"
+        >
+          <p>&copy; 2024 EduLearn. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Mobile Menu -->
+    <div
+      id="mobileMenu"
+      class="fixed inset-0 bg-gray-900 bg-opacity-90 z-50 hidden"
+    >
+      <!-- Mobile menu content (same as in index.html) -->
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button
+      id="openMenu"
+      class="md:hidden fixed bottom-6 right-6 bg-primary-dark text-white p-4 rounded-full shadow-lg z-40"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16"
+        />
+      </svg>
+    </button>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

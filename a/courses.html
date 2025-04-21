@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Courses | EduLearn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="/css/styles.css" rel="stylesheet" />
+  </head>
+  <body class="font-sans antialiased text-gray-800 bg-gray-50">
+    <!-- Navigation (same as index.html) -->
+    <nav class="gradient-bg text-white shadow-lg">
+      <!-- ... same nav content ... -->
+    </nav>
+
+    <!-- Courses Header -->
+    <section class="hero-gradient text-white py-20">
+      <div class="container mx-auto px-6 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">Explore Our Courses</h1>
+        <p class="text-xl mb-8 max-w-2xl mx-auto">
+          Find the perfect course to advance your career and skills
+        </p>
+        <div class="max-w-md mx-auto">
+          <div class="relative">
+            <input
+              type="text"
+              placeholder="Search courses..."
+              class="w-full px-6 py-3 rounded-md text-gray-800 focus:outline-none"
+            />
+            <button
+              class="absolute right-2 top-2 gradient-bg text-white px-4 py-1 rounded-md"
+            >
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Courses Filter -->
+    <section class="py-8 bg-white">
+      <div class="container mx-auto px-6">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="mb-4 md:mb-0">
+            <span class="text-gray-600 mr-2">Filter by:</span>
+            <select class="border rounded-md px-3 py-1">
+              <option>All Categories</option>
+              <option>Web Development</option>
+              <option>Data Science</option>
+              <option>Business</option>
+              <option>Design</option>
+            </select>
+            <select class="border rounded-md px-3 py-1 ml-2">
+              <option>All Levels</option>
+              <option>Beginner</option>
+              <option>Intermediate</option>
+              <option>Advanced</option>
+            </select>
+          </div>
+          <div>
+            <span class="text-gray-600 mr-2">Sort by:</span>
+            <select class="border rounded-md px-3 py-1">
+              <option>Most Popular</option>
+              <option>Newest</option>
+              <option>Highest Rated</option>
+              <option>Price: Low to High</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Courses Grid -->
+    <section class="py-16 bg-gray-50">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Course cards (same as index.html but more of them) -->
+          <!-- Repeat the course card structure 6-9 times -->
+        </div>
+
+        <div class="text-center mt-12">
+          <button
+            class="px-6 py-3 rounded-md gradient-bg text-white font-bold hover:opacity-90 transition"
+          >
+            Load More Courses
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer (same as index.html) -->
+    <footer class="bg-gray-900 text-white py-12">
+      <!-- ... same footer content ... -->
+    </footer>
+
+    <!-- Mobile Menu (same as index.html) -->
+    <script src="/js/main.js"></script>
+  </body>
+</html>

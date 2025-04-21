@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up | EduLearn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="css/styles.css" rel="stylesheet" />
+  </head>
+  <body class="font-sans antialiased text-gray-800 bg-gray-50">
+    <!-- Simple Navigation -->
+    <nav class="gradient-bg text-white shadow-lg">
+      <div class="container mx-auto px-6 py-3">
+        <div class="flex items-center justify-between">
+          <a href="index.html" class="text-2xl font-bold">EduLearn</a>
+          <a href="login.html" class="text-white hover:text-gray-200"
+            >Already have an account? Login</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- Signup Section -->
+    <section class="py-16">
+      <div class="container mx-auto px-6">
+        <div
+          class="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden"
+        >
+          <div class="gradient-bg text-white py-6 px-6 text-center">
+            <h2 class="text-2xl font-bold">Get started</h2>
+            <p class="opacity-90">Create your account to start learning</p>
+          </div>
+          <div class="p-6">
+            <form class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label
+                    for="first-name"
+                    class="block text-gray-700 font-medium mb-2"
+                    >First Name</label
+                  >
+                  <input
+                    type="text"
+                    id="first-name"
+                    class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light"
+                    placeholder="John"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="last-name"
+                    class="block text-gray-700 font-medium mb-2"
+                    >Last Name</label
+                  >
+                  <input
+                    type="text"
+                    id="last-name"
+                    class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light"
+                    placeholder="Doe"
+                  />
+                </div>
+              </div>
+              <div>
+                <label for="email" class="block text-gray-700 font-medium mb-2"
+                  >Email Address</label
+                >
+                <input
+                  type="email"
+                  id="email"
+                  class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light"
+                  placeholder="you@example.com"
+                />
+              </div>
+              <div>
+                <label
+                  for="password"
+                  class="block text-gray-700 font-medium mb-2"
+                  >Password</label
+                >
+                <input
+                  type="password"
+                  id="password"
+                  class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light"
+                  placeholder="••••••••"
+                />
+                <p class="text-xs text-gray-500 mt-2">
+                  Minimum 8 characters with at least one number
+                </p>
+              </div>
+              <div>
+                <label
+                  for="confirm-password"
+                  class="block text-gray-700 font-medium mb-2"
+                  >Confirm Password</label
+                >
+                <input
+                  type="password"
+                  id="confirm-password"
+                  class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light"
+                  placeholder="••••••••"
+                />
+              </div>
+              <div class="flex items-center">
+                <input type="checkbox" id="terms" class="mr-2" />
+                <label for="terms" class="text-sm text-gray-600"
+                  >I agree to the
+                  <a href="#" class="text-primary-dark hover:underline"
+                    >Terms of Service</a
+                  >
+                  and
+                  <a href="#" class="text-primary-dark hover:underline"
+                    >Privacy Policy</a
+                  ></label
+                >
+              </div>
+              <button
+                type="submit"
+                class="w-full gradient-bg text-white py-3 rounded-md font-bold hover:opacity-90 transition"
+              >
+                Create Account
+              </button>
+            </form>
+
+            <div class="mt-6">
+              <div class="relative">
+                <div class="absolute inset-0 flex items-center">
+                  <div class="w-full border-t border-gray-300"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                  <span class="px-2 bg-white text-gray-500"
+                    >Or sign up with</span
+                  >
+                </div>
+              </div>
+
+              <div class="mt-6 grid grid-cols-2 gap-3">
+                <a
+                  href="#"
+                  class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
+                >
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814c-1.786-1.667-4.166-2.685-6.735-2.685-5.522 0-10 4.477-10 10s4.478 10 10 10c8.396 0 10-7.524 10-10 0-0.668-0.068-1.324-0.182-1.961h-9.818z"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="#"
+                  class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
+                >
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer (simplified) -->
+    <footer class="bg-gray-900 text-white py-8">
+      <div class="container mx-auto px-6 text-center">
+        <p>&copy; 2024 EduLearn. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

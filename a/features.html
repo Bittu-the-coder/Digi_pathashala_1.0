@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Features | EduLearn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                light: "#4f46e5",
+                DEFAULT: "#4338ca",
+                dark: "#3730a3",
+              },
+              secondary: {
+                light: "#ec4899",
+                DEFAULT: "#db2777",
+                dark: "#be185d",
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <link href="css/styles.css" rel="stylesheet" />
+  </head>
+  <body class="font-sans antialiased text-gray-800 bg-gray-50">
+    <!-- Navigation -->
+    <nav class="gradient-bg text-white shadow-lg">
+      <div class="container mx-auto px-6 py-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <a href="index.html" class="text-2xl font-bold gradient-text"
+              >EduLearn</a
+            >
+            <div class="hidden md:flex space-x-6">
+              <a href="index.html" class="hover:text-gray-200 transition"
+                >Home</a
+              >
+              <a
+                href="index.html#courses"
+                class="hover:text-gray-200 transition"
+                >Courses</a
+              >
+              <a href="features.html" class="hover:text-gray-200 transition"
+                >Features</a
+              >
+              <a href="about.html" class="hover:text-gray-200 transition"
+                >About</a
+              >
+              <a href="contact.html" class="hover:text-gray-200 transition"
+                >Contact</a
+              >
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <a
+              href="login.html"
+              class="px-4 py-2 rounded-md bg-white text-primary-dark font-medium hover:bg-gray-100 transition"
+            >
+              Login
+            </a>
+            <a
+              href="signup.html"
+              class="px-4 py-2 rounded-md bg-secondary-dark text-white font-medium hover:bg-secondary-light transition"
+            >
+              Sign Up
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Features Hero -->
+    <section class="hero-gradient text-white py-20">
+      <div class="container mx-auto px-6 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">
+          Powerful Learning Features
+        </h1>
+        <p class="text-xl mb-8 max-w-2xl mx-auto">
+          Everything you need to achieve your learning goals
+        </p>
+      </div>
+    </section>
+
+    <!-- Main Features -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <!-- Feature 1 -->
+          <div class="flex">
+            <div class="mr-6">
+              <div
+                class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center"
+              >
+                <svg
+                  class="h-8 w-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold mb-3">Interactive Video Lessons</h3>
+              <p class="text-gray-600">
+                Engage with high-quality video content that makes learning
+                enjoyable and effective. Our interactive videos include quizzes,
+                annotations, and playback controls.
+              </p>
+            </div>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="flex">
+            <div class="mr-6">
+              <div
+                class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center"
+              >
+                <svg
+                  class="h-8 w-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold mb-3">Certificates of Completion</h3>
+              <p class="text-gray-600">
+                Earn verifiable certificates upon completing courses to showcase
+                your new skills to employers and your professional network.
+              </p>
+            </div>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="flex">
+            <div class="mr-6">
+              <div
+                class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center"
+              >
+                <svg
+                  class="h-8 w-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold mb-3">Flexible Learning Schedule</h3>
+              <p class="text-gray-600">
+                Learn at your own pace with 24/7 access to course materials. Set
+                your own schedule and learn when it's convenient for you.
+              </p>
+            </div>
+          </div>
+
+          <!-- Feature 4 -->
+          <div class="flex">
+            <div class="mr-6">
+              <div
+                class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center"
+              >
+                <svg
+                  class="h-8 w-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold mb-3">Downloadable Resources</h3>
+              <p class="text-gray-600">
+                Access supplementary materials like eBooks, articles, and cheat
+                sheets to enhance your learning experience.
+              </p>
+            </div>
+          </div>
+
+          <!-- Feature 5 -->
+          <div class="flex">
+            <div class="mr-6">
+              <div
+                class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center"
+              >
+                <svg
+                  class="h-8 w-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold mb-3">Community Support</h3>
+              <p class="text-gray-600">
+                Join a community of learners where you can ask questions, share
+                projects, and get feedback from peers and instructors.
+              </p>
+            </div>
+          </div>
+
+          <!-- Feature 6 -->
+          <div class="flex">
+            <div class="mr-6">
+              <div
+                class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center"
+              >
+                <svg
+                  class="h-8 w-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold mb-3">Hands-on Projects</h3>
+              <p class="text-gray-600">
+                Apply what you learn with real-world projects that you can add
+                to your portfolio and showcase to potential employers.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mobile App Section -->
+    <section class="py-16 bg-gray-50">
+      <div class="container mx-auto px-6">
+        <div class="flex flex-col md:flex-row items-center">
+          <div class="md:w-1/2 mb-8 md:mb-0">
+            <h2 class="text-3xl font-bold mb-6">
+              Learn on the go with our mobile app
+            </h2>
+            <p class="text-gray-600 mb-6">
+              Download the EduLearn app to take courses anytime, anywhere. All
+              your progress syncs across devices so you can pick up right where
+              you left off.
+            </p>
+            <div class="flex space-x-4">
+              <button
+                class="flex items-center bg-black text-white px-4 py-2 rounded-lg"
+              >
+                <svg
+                  class="w-6 h-6 mr-2"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M17.9 17.39c-.26-.8-1.01-1.39-1.9-1.39h-1v-3a1 1 0 00-1-1H8v-2h2a1 1 0 001-1V7h2a2 2 0 002-2v-.41a7.984 7.984 0 012.9 12.8M11 19.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.22.21-1.79L9 15v1a2 2 0 002 2m1-16A10 10 0 002 12a10 10 0 0010 10 10 10 0 0010-10A10 10 0 0012 2z"
+                  ></path>
+                </svg>
+                <div class="text-left">
+                  <div class="text-xs">Download on the</div>
+                  <div class="font-bold">App Store</div>
+                </div>
+              </button>
+              <button
+                class="flex items-center bg-black text-white px-4 py-2 rounded-lg"
+              >
+                <svg
+                  class="w-6 h-6 mr-2"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"
+                  ></path>
+                </svg>
+                <div class="text-left">
+                  <div class="text-xs">Get it on</div>
+                  <div class="font-bold">Google Play</div>
+                </div>
+              </button>
+            </div>
+          </div>
+          <div class="md:w-1/2 md:pl-12">
+            <img
+              src="https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+              alt="Mobile App"
+              class="rounded-lg shadow-xl"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <!-- Footer content (same as in index.html) -->
+        </div>
+        <div
+          class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400"
+        >
+          <p>&copy; 2024 EduLearn. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Mobile Menu -->
+    <div
+      id="mobileMenu"
+      class="fixed inset-0 bg-gray-900 bg-opacity-90 z-50 hidden"
+    >
+      <!-- Mobile menu content (same as in index.html) -->
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button
+      id="openMenu"
+      class="md:hidden fixed bottom-6 right-6 bg-primary-dark text-white p-4 rounded-full shadow-lg z-40"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16"
+        />
+      </svg>
+    </button>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

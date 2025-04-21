@@ -1,0 +1,98 @@
+/* Additional CSS that isn't covered by Tailwind */
+.gradient-bg {
+  background: linear-gradient(135deg, #4f46e5 0%, #db2777 100%);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #4f46e5 0%, #db2777 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* Fix text visibility in some browsers */
+  display: inline-block;
+}
+
+.card-gradient {
+  background: linear-gradient(
+    135deg,
+    rgba(79, 70, 229, 0.1) 0%,
+    rgba(219, 39, 119, 0.1) 100%
+  );
+}
+
+.hero-gradient {
+  background: linear-gradient(
+    135deg,
+    rgba(79, 70, 229, 0.8) 0%,
+    rgba(219, 39, 119, 0.8) 100%
+  );
+}
+
+/* Mobile menu transitions */
+#mobileMenu {
+  transition: all 0.3s ease;
+}
+
+/* Course card hover effect */
+.course-card:hover {
+  transform: translateY(-5px);
+  transition: transform 0.3s ease;
+}
+
+/* FAQ accordion transitions */
+.faq-content {
+  transition: max-height 0.3s ease;
+}
+
+/* Form input focus states */
+input:focus,
+textarea:focus,
+select:focus {
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.5);
+}
+
+/* Button styles */
+.btn-primary {
+  @apply px-6 py-3 rounded-md bg-white text-primary-dark font-bold hover:bg-gray-100 transition;
+}
+
+.btn-secondary {
+  @apply px-6 py-3 rounded-md border-2 border-white text-white font-bold hover:bg-white hover:text-primary-dark transition;
+}
+
+/* Carousel controls */
+.carousel-controls {
+  @apply flex items-center justify-center space-x-4 mt-8;
+}
+
+.carousel-btn {
+  @apply p-2 rounded-full bg-primary-dark text-white hover:bg-primary-light transition;
+}
+
+/* For improved text visibility */
+.text-shadow {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Fix for mobile menu button */
+#openMenu {
+  z-index: 40;
+}
+
+/* Fix for testimonial carousel */
+.testimonial:not(.hidden) {
+  display: block;
+}
+
+/* For course-detail page section buttons */
+.section-button {
+  cursor: pointer;
+}
+
+.section-button svg {
+  transition: transform 0.3s ease;
+}
+
+.section-button svg.rotate-180 {
+  transform: rotate(180deg);
+}
