@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useData } from "../../context/DataContext";
+import { useAuth } from "../../context/AuthContext";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { ArrowLeft, LogIn } from "lucide-react";
@@ -12,33 +12,31 @@ const StudentSignIn = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { login } = useData();
+  const { loginStudent } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // Simulate API call delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const result = await loginStudent(email, password);
 
-      const success = login(email, password);
-
-      if (success) {
+      if (result.success) {
         toast.success("Login successful!");
         navigate("/student/dashboard");
       } else {
-        toast.error("Invalid credentials. Please try again.");
+        toast.error(result.error || "Invalid credentials");
       }
     } catch (error) {
       toast.error("An error occurred. Please try again.");
+      console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-pink-50">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-pink-50 p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -129,7 +127,7 @@ const StudentSignIn = () => {
               disabled={loading}
               className={`w-full flex justify-center items-center py-3 px-4 border border-transparent text-base font-medium rounded-lg text-white ${
                 loading
-                  ? "bg-blue-400"
+                  ? "bg-blue-400 cursor-not-allowed"
                   : "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-purple-600 hover:to-blue-600"
               } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-md hover:shadow-lg transition-all duration-300`}
             >

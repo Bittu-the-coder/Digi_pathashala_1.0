@@ -1,5 +1,8 @@
 /* eslint-disable no-unused-vars */
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { useAuth } from "./AuthContext";
+import { updateUserProfile as updateUserProfileAPI } from "../services/authService";
+import toast from "react-hot-toast";
 
 // Create a context for data
 const DataContext = createContext();
@@ -15,12 +18,22 @@ const sampleData = {
       enrolledCourses: ["101", "102"],
       progress: 65,
       attendance: 78,
+      phone: "+91 9876543210",
+      address: "456 Learning Avenue, Student City, 560002",
+      bio: "Passionate learner interested in Computer Science, Mathematics, and Physics. Looking to expand my knowledge and skills through quality education.",
+      interests: "Programming, Mathematics, Science",
+      joinedDate: "March 2022",
     },
     {
       id: "2",
       name: "Admin User",
       email: "admin@example.com",
       role: "admin",
+      phone: "+91 9876543210",
+      address: "123 Education Lane, Teaching City, 560001",
+      bio: "Experienced educator passionate about sharing knowledge.",
+      specialization: "Computer Science, Mathematics",
+      joinedDate: "January 2020",
     },
   ],
 
@@ -135,12 +148,32 @@ const sampleData = {
 
 // Create a provider component
 export const DataProvider = ({ children }) => {
+  const { currentUser, loading } = useAuth();
   const [user, setUser] = useState(null);
   const [courses, setCourses] = useState(sampleData.courses);
   const [liveClasses, setLiveClasses] = useState(sampleData.liveClasses);
   const [attendance, setAttendance] = useState(sampleData.attendance);
 
-  // Function to log in a user
+  // Update user when authentication state changes
+  useEffect(() => {
+    if (currentUser) {
+      // Find the user in our sample data that matches the authenticated user
+      const foundUser = sampleData.users.find(
+        (u) => u.email === currentUser.email
+      );
+
+      if (foundUser) {
+        setUser(foundUser);
+      } else {
+        // If user not found in sample data, use currentUser data directly
+        setUser(currentUser);
+      }
+    } else {
+      setUser(null);
+    }
+  }, [currentUser]);
+
+  // Function to log in a user - kept for backward compatibility
   const login = (email, password) => {
     // Simple authentication (in a real app, use proper auth)
     const foundUser = sampleData.users.find((u) => u.email === email);
@@ -165,6 +198,38 @@ export const DataProvider = ({ children }) => {
     setUser(null);
   };
 
+  // Function to update user profile
+  const updateUserProfile = async (updatedUserData) => {
+    try {
+      // Update the user profile in the backend
+      const response = await updateUserProfileAPI(updatedUserData);
+
+      // If successful, update the local state with the data returned from the server
+      if (response.success) {
+        // Update the local user state with the data returned from the server
+        // This ensures we have the exact data saved in the database
+        setUser(response.data);
+
+        // Important: Also update the auth context to keep data in sync
+        if (window.updateAuthUserData) {
+          window.updateAuthUserData(response.data);
+        }
+
+        toast.success("Profile updated successfully!");
+        return true;
+      } else {
+        toast.error(response.message || "Failed to update profile");
+        return false;
+      }
+    } catch (error) {
+      console.error("Profile update error:", error);
+      toast.error(
+        error.message || "An error occurred while updating your profile"
+      );
+      return false;
+    }
+  };
+
   // Function to get student attendance
   const getStudentAttendance = (studentId) => {
     return sampleData.attendance
@@ -185,6 +250,7 @@ export const DataProvider = ({ children }) => {
     login,
     logout,
     getStudentAttendance,
+    updateUserProfile,
   };
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

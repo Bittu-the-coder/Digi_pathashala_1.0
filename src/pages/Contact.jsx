@@ -127,9 +127,9 @@ const Contact = () => {
                         Email Address
                       </h3>
                       <p className="text-gray-600 mt-1">
-                        info@digipathashala.edu
+                        info@digiPathshala.edu
                         <br />
-                        support@digipathashala.edu
+                        support@digiPathshala.edu
                       </p>
                     </div>
                   </div>
@@ -320,7 +320,7 @@ const Contact = () => {
               allowFullScreen=""
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Digi Pathashala Location"
+              title="Digi Pathshala Location"
             ></iframe>
           </div>
         </div>

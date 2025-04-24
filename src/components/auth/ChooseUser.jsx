@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 
 const ChooseUser = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-pink-50">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-pink-50 p-4">
       <div className="max-w-md w-full p-10 bg-white rounded-xl shadow-xl">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -24,7 +24,7 @@ const ChooseUser = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="space-y-6"
+          className="flex flex-col gap-4"
         >
           <Link to="/admin-signin">
             <button className="w-full flex items-center justify-between px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-purple-600 hover:to-blue-600 shadow-md hover:shadow-lg transition-all duration-300">

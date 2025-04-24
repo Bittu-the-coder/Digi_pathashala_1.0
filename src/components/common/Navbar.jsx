@@ -52,7 +52,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <div className="font-bold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-              Digi Pathashala
+              Digi Pathshala
             </div>
           </Link>
 

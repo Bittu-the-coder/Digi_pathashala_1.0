@@ -37,10 +37,19 @@ export const register = async (userData) => {
 
 export const getCurrentUser = async () => {
   try {
-    const response = await API.get('/users/me');
+    const response = await API.get('/users/profile');
     return response.data;
   } catch (err) {
     throw err.response?.data || { message: 'Failed to fetch user' };
+  }
+};
+
+export const updateUserProfile = async (profileData) => {
+  try {
+    const response = await API.put('/users/profile', profileData);
+    return response.data;
+  } catch (err) {
+    throw err.response?.data || { message: 'Failed to update profile' };
   }
 };
 

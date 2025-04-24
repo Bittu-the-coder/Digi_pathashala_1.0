@@ -1,19 +1,25 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import Input from "../common/Input";
 import Button from "../common/Button";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
+import { ArrowLeft, UserPlus } from "lucide-react";
 
 const StudentRegister = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     password: "",
     confirmPassword: "",
+    role: "student", // Adding role explicitly
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { registerUser } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,15 +29,30 @@ const StudentRegister = () => {
       // Validate passwords match
       if (formData.password !== formData.confirmPassword) {
         toast.error("Passwords do not match");
+        setLoading(false);
         return;
       }
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      toast.success("Registration successful! Please sign in.");
-      navigate("/student-signin");
+      // Prepare data for API call (remove confirmPassword)
+      const userData = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password,
+        role: "student",
+      };
+
+      const result = await registerUser(userData);
+
+      if (result.success) {
+        toast.success("Registration successful! Please sign in.");
+        navigate("/student-signin");
+      } else {
+        toast.error(result.error || "Registration failed. Please try again.");
+      }
     } catch (error) {
-      toast.error("Registration failed. Please try again.");
+      toast.error("An error occurred. Please try again.");
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -42,12 +63,22 @@ const StudentRegister = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full">
-        <h2 className="text-2xl font-bold text-center mb-6">
-          Student Register
-        </h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-pink-50 p-4">
+      <motion.div // Added motion wrapper
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-lg w-full space-y-8 p-10 bg-white rounded-xl shadow-xl" // Increased max-w
+      >
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+            Student Registration
+          </h2>
+          <p className="mt-2 text-sm text-gray-600">
+            Create your account and start learning today
+          </p>
+        </div>
+        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
           <Input
             type="text"
             name="name"
@@ -59,10 +90,18 @@ const StudentRegister = () => {
           <Input
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder="Email Address"
             value={formData.email}
             onChange={handleChange}
             required
+          />
+          <Input // Added Phone Input
+            type="tel"
+            name="phone"
+            placeholder="Phone Number (Optional)"
+            value={formData.phone}
+            onChange={handleChange}
+            autoComplete="tel"
           />
           <Input
             type="password"
@@ -80,22 +119,39 @@ const StudentRegister = () => {
             onChange={handleChange}
             required
           />
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Registering..." : "Register"}
+          <Button
+            type="submit"
+            className={`w-full flex justify-center items-center py-3 px-4 border border-transparent text-base font-medium rounded-lg text-white ${
+              loading
+                ? "bg-blue-400 cursor-not-allowed"
+                : "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-purple-600 hover:to-blue-600"
+            } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-md hover:shadow-lg transition-all duration-300`}
+            disabled={loading}
+          >
+            {loading ? (
+              "Registering..."
+            ) : (
+              <>
+                Register <UserPlus className="ml-2 h-5 w-5" />
+              </>
+            )}
           </Button>
         </form>
-        <div className="mt-4 text-center">
-          <p className="text-gray-600">
-            Already have an account?{" "}
-            <Link
-              to="/student-signin"
-              className="text-indigo-600 hover:underline"
-            >
-              Sign In
-            </Link>
-          </p>
+        <div className="flex items-center justify-between text-sm">
+          <Link
+            to="/student-signin"
+            className="font-medium text-blue-600 hover:text-blue-500"
+          >
+            Already have an account? Sign In
+          </Link>
+          <Link // Added Back link
+            to="/choose-user"
+            className="font-medium text-gray-600 hover:text-gray-500 flex items-center"
+          >
+            <ArrowLeft className="mr-1 h-4 w-4" /> Back
+          </Link>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

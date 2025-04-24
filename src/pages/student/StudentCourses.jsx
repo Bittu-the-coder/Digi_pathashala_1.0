@@ -1,4 +1,8 @@
 import CourseCard from "../../components/student/CourseCard";
+import mathImg from "../../assets/Mathematics].jpg";
+import physicsImg from "../../assets/Physics.jpg";
+import codingImg from "../../assets/Computer.jpg";
+import englishImg from "../../assets/English.avif";
 
 const StudentCourses = () => {
   const courses = [
@@ -10,7 +14,7 @@ const StudentCourses = () => {
         "Master advanced mathematical concepts and problem-solving techniques",
       progress: 75,
       category: "Mathematics",
-      image: "https://source.unsplash.com/random/300x200/?math",
+      image: mathImg,
     },
     {
       id: 2,
@@ -20,7 +24,7 @@ const StudentCourses = () => {
         "Learn the fundamental principles of physics and their applications",
       progress: 45,
       category: "Science",
-      image: "https://source.unsplash.com/random/300x200/?physics",
+      image: physicsImg,
     },
     {
       id: 3,
@@ -29,7 +33,7 @@ const StudentCourses = () => {
       description: "Introduction to programming and computer science concepts",
       progress: 30,
       category: "Technology",
-      image: "https://source.unsplash.com/random/300x200/?coding",
+      image: codingImg,
     },
     {
       id: 4,
@@ -38,7 +42,7 @@ const StudentCourses = () => {
       description: "Explore classic and contemporary English literature",
       progress: 15,
       category: "Languages",
-      image: "https://source.unsplash.com/random/300x200/?books",
+      image: englishImg,
     },
   ];
 

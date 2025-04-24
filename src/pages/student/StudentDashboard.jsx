@@ -215,14 +215,14 @@ const StudentDashboard = () => {
 
   return (
     <div className="space-y-6">
-      <div>
+      {/* <div>
         <h1 className="text-2xl font-bold text-gray-900 mb-2">
           Student Dashboard
         </h1>
         <p className="text-gray-600">
           Welcome back, {user?.name || "Student"}!
         </p>
-      </div>
+      </div> */}
 
       {/* Quick Actions */}
       <div className="bg-white p-4 rounded-lg shadow-md">

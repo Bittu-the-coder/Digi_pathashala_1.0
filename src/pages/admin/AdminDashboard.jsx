@@ -33,17 +33,15 @@ const AdminDashboard = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900">Teacher Dashboard</h1>
+        <h1 className="text-sm text-gray-500">
+          Last updated: {new Date().toLocaleDateString()}
+        </h1>
         <Link to="/admin/courses/new">
           <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:from-blue-700 hover:to-purple-700 transition-all">
             <PlusCircle size={18} />
             Create New Course
           </button>
         </Link>
-      </div>
-
-      <div className="text-sm text-gray-500">
-        Last updated: {new Date().toLocaleDateString()}
       </div>
 
       {/* Quick Actions */}
@@ -58,7 +56,7 @@ const AdminDashboard = () => {
           >
             <BookOpen size={24} className="text-blue-600 mb-2" />
             <span className="text-sm font-medium text-gray-800">
-              Host New Course
+              Create New Course
             </span>
           </Link>
 
@@ -78,7 +76,7 @@ const AdminDashboard = () => {
           >
             <VideoIcon size={24} className="text-purple-600 mb-2" />
             <span className="text-sm font-medium text-gray-800">
-              Start Live Class
+              Schedule Live Class
             </span>
           </Link>
 

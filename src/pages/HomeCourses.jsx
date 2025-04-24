@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Search, Filter, ChevronDown } from "lucide-react";
 import Navbar from "../components/common/Navbar";
 import Footer from "../components/common/Footer";
+import { Link } from "react-router-dom";
 
 const HomeCourses = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -320,9 +321,11 @@ const HomeCourses = () => {
                         <span className="text-lg font-bold text-gray-900">
                           ${course.price}
                         </span>
-                        <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
-                          Enroll
-                        </button>
+                        <Link to="/student-signin">
+                          <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+                            Enroll
+                          </button>
+                        </Link>
                       </div>
                     </div>
                   </motion.div>

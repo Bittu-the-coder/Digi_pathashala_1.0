@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Book,
@@ -13,11 +13,18 @@ import {
   Calendar,
   Award,
 } from "lucide-react";
-import { useData } from "../../context/DataContext";
+import { useAuth } from "../../context/AuthContext";
 
 const Sidebar = () => {
   const location = useLocation();
-  const { logout, user } = useData();
+  const { currentUser, logout } = useAuth();
+  const navigate = useNavigate();
+  const [user, setUser] = useState(currentUser);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/choose-user");
+  };
 
   // Determine if user is admin based on role
   const isAdmin = user?.role === "admin";
@@ -100,7 +107,7 @@ const Sidebar = () => {
 
       <div className="p-4 border-t">
         <button
-          onClick={logout}
+          onClick={handleLogout}
           className="flex items-center px-4 py-2 text-sm font-medium text-red-600 rounded-md hover:bg-red-50 w-full"
         >
           <LogOut size={20} className="mr-3" />
@@ -112,7 +119,7 @@ const Sidebar = () => {
         <div className="text-xs text-blue-700">
           <p className="font-semibold">Need Help?</p>
           <p className="mt-1">Contact support at:</p>
-          <p>support@digipathashala.com</p>
+          <p>support@digipathshala.com</p>
         </div>
       </div>
     </div>

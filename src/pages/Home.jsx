@@ -88,7 +88,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <div className="font-bold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-              Digi Pathashala
+              Digi Pathshala
             </div>
           </Link>
 
@@ -252,7 +252,7 @@ function Hero() {
           >
             <Sparkles className="w-4 h-4 text-blue-600" />
             <span className="text-sm font-medium text-blue-900">
-              Welcome to Digi Pathashala
+              Welcome to Digi Pathshala
             </span>
           </motion.div>
 
@@ -279,7 +279,7 @@ function Hero() {
             transition={{ delay: 0.5 }}
             className="mb-8 leading-relaxed text-lg text-gray-600 max-w-2xl"
           >
-            Digi Pathashala connects students with expert teachers. Find courses
+            Digi Pathshala connects students with expert teachers. Find courses
             that match your interests and learning goals, or sign up as a
             teacher and share your knowledge with eager students.
           </motion.p>
@@ -298,7 +298,7 @@ function Hero() {
             </Link>
             <Link to="/admin-signin">
               <button className="bg-white hover:bg-gray-50 text-gray-900 px-8 py-4 text-lg rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 hover:border-blue-200">
-                Login as Teacher
+                Join as Teacher
               </button>
             </Link>
           </motion.div>
@@ -392,7 +392,7 @@ const Features = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            How Digi Pathashala Works
+            How Digi Pathshala Works
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Our platform connects students with teachers in a seamless digital
@@ -453,7 +453,7 @@ const Testimonials = () => {
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Hear from students and teachers about their experiences with Digi
-            Pathashala.
+            Pathshala.
           </p>
         </div>
 
@@ -461,7 +461,7 @@ const Testimonials = () => {
           {[
             {
               quote:
-                "Digi Pathashala helped me find the perfect math tutor. My grades have improved significantly after just a few sessions!",
+                "Digi Pathshala helped me find the perfect math tutor. My grades have improved significantly after just a few sessions!",
               author: "Priya Sharma",
               role: "Student",
             },
@@ -518,17 +518,17 @@ const CallToAction = () => {
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-white mb-6">
-            Ready to Begin Your Learning Journey?
+            Ready to Begin Your Journey?
           </h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/student-signin">
-              <button className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+              <button className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 w-full sm:w-auto">
                 Join as Student
               </button>
             </Link>
             <Link to="/admin-signin">
-              <button className="bg-transparent border-2 border-white text-white hover:bg-white/10 px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-                Login as Teacher
+              <button className="bg-transparent border-2 border-white text-white hover:bg-white/10 px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 w-full sm:w-auto">
+                Sign In as Teacher
               </button>
             </Link>
           </div>
@@ -547,7 +547,7 @@ const Footer = () => {
           {/* Platform Info */}
           <div>
             <h3 className="text-xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
-              Digi Pathashala
+              Digi Pathshala
             </h3>
             <p className="text-gray-400 mb-4">
               Connecting students with expert teachers for quality online
@@ -573,9 +573,9 @@ const Footer = () => {
               {[
                 { name: "Find Teachers", link: "/teachers" },
                 { name: "Browse Courses", link: "/courses" },
-                { name: "Become a Teacher", link: "/admin-signin" },
+                { name: "Become a Teacher", link: "/admin-register" },
                 { name: "Student Resources", link: "/resources" },
-                { name: "Help Center", link: "/help" },
+                { name: "Contact Us", link: "/contact" },
               ].map((item, index) => (
                 <li key={index}>
                   <Link
@@ -593,7 +593,7 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
             <ul className="space-y-2 text-gray-400">
-              <li>support@digipathashala.edu</li>
+              <li>support@digiPathshala.edu</li>
               <li>+91 123 456 7890</li>
               <li>
                 <Link
@@ -609,7 +609,7 @@ const Footer = () => {
 
         <div className="border-t border-gray-800 pt-6">
           <p className="text-gray-500 text-sm text-center">
-            © {new Date().getFullYear()} Digi Pathashala. All rights reserved.
+            © {new Date().getFullYear()} Digi Pathshala. All rights reserved.
           </p>
         </div>
       </div>
