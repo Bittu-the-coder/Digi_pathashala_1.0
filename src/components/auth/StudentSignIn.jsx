@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useData } from "../../context/DataContext";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
+import { ArrowLeft, LogIn } from "lucide-react";
 
 const StudentSignIn = () => {
   const [email, setEmail] = useState("");
@@ -36,26 +38,29 @@ const StudentSignIn = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full space-y-8 p-10 bg-white rounded-xl shadow-md">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-pink-50">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-md w-full space-y-8 p-10 bg-white rounded-xl shadow-xl"
+      >
         <div className="text-center">
-          <h2 className="mt-6 text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
             Student Sign In
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Or{" "}
-            <Link
-              to="/student-register"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
-            >
-              register a new account
-            </Link>
+            Access your learning dashboard and continue your education journey
           </p>
         </div>
+
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
+          <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="sr-only">
+              <label
+                htmlFor="email"
+                className="text-sm font-medium text-gray-700 block mb-2"
+              >
                 Email address
               </label>
               <input
@@ -64,14 +69,18 @@ const StudentSignIn = () => {
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
+
             <div>
-              <label htmlFor="password" className="sr-only">
+              <label
+                htmlFor="password"
+                className="text-sm font-medium text-gray-700 block mb-2"
+              >
                 Password
               </label>
               <input
@@ -80,11 +89,37 @@ const StudentSignIn = () => {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <input
+                id="remember-me"
+                name="remember-me"
+                type="checkbox"
+                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              />
+              <label
+                htmlFor="remember-me"
+                className="ml-2 block text-sm text-gray-700"
+              >
+                Remember me
+              </label>
+            </div>
+
+            <div className="text-sm">
+              <a
+                href="#"
+                className="font-medium text-blue-600 hover:text-blue-500"
+              >
+                Forgot password?
+              </a>
             </div>
           </div>
 
@@ -92,32 +127,49 @@ const StudentSignIn = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
+              className={`w-full flex justify-center items-center py-3 px-4 border border-transparent text-base font-medium rounded-lg text-white ${
                 loading
-                  ? "bg-indigo-400"
-                  : "bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              }`}
+                  ? "bg-blue-400"
+                  : "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-purple-600 hover:to-blue-600"
+              } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-md hover:shadow-lg transition-all duration-300`}
             >
-              {loading ? "Signing in..." : "Sign in"}
+              {loading ? (
+                "Signing in..."
+              ) : (
+                <>
+                  Sign in <LogIn className="ml-2 h-5 w-5" />
+                </>
+              )}
             </button>
           </div>
 
-          <div className="text-sm text-center">
+          <div className="flex items-center justify-between text-sm">
+            <Link
+              to="/student-register"
+              className="font-medium text-blue-600 hover:text-blue-500"
+            >
+              Don't have an account? Register
+            </Link>
+
             <Link
               to="/choose-user"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
+              className="font-medium text-gray-600 hover:text-gray-500 flex items-center"
             >
-              Back to Choose User
+              <ArrowLeft className="mr-1 h-4 w-4" /> Back
             </Link>
           </div>
 
-          <div className="mt-4 text-sm text-gray-600 text-center">
-            <p>For demo, use:</p>
-            <p>Email: student1@example.com</p>
-            <p>Password: student123</p>
+          <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+            <p className="text-sm text-gray-600 text-center">
+              <strong>Demo Credentials:</strong>
+              <br />
+              Email: student1@example.com
+              <br />
+              Password: student123
+            </p>
           </div>
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 };

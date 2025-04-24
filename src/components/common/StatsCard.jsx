@@ -1,23 +1,25 @@
 import React from "react";
 
-const StatsCard = ({ title, value, icon, bgColor, textColor }) => {
+const StatsCard = ({ title, value, icon, bgColor }) => {
   return (
-    <div className="bg-white overflow-hidden shadow rounded-lg">
-      <div className="px-4 py-5 sm:p-6">
-        <div className="flex items-center">
-          <div className={`flex-shrink-0 ${bgColor} rounded-md p-3`}>
-            {icon && <span className={`h-6 w-6 ${textColor}`}>{icon}</span>}
-          </div>
-          <div className="ml-5 w-0 flex-1">
+    <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100">
+      <div className="flex items-center">
+        <div
+          className={`flex-shrink-0 ${bgColor} bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-3`}
+        >
+          <span className="text-lg text-white">{icon}</span>
+        </div>
+        <div className="ml-5 w-0 flex-1">
+          <dl>
             <dt className="text-sm font-medium text-gray-500 truncate">
               {title}
             </dt>
-            <dd className="flex items-baseline">
-              <div className="text-2xl font-semibold text-gray-900">
+            <dd>
+              <div className="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
                 {value}
               </div>
             </dd>
-          </div>
+          </dl>
         </div>
       </div>
     </div>

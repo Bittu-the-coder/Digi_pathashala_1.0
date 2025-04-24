@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Sidebar from "../../components/common/Sidebar";
 import UserTable from "../../components/admin/UserTable";
 import Button from "../../components/common/Button";
 import { PlusIcon, SearchIcon } from "../../components/icons/Icons";
@@ -61,7 +60,6 @@ const Users = () => {
 
   return (
     <div className="flex">
-      <Sidebar isAdmin={true} />
       <main className="flex-1 p-6 bg-gradient-to-br from-blue-50 to-indigo-50">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800">User Management</h1>

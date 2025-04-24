@@ -1,22 +1,75 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import {
+  LayoutDashboard,
+  Book,
+  Users,
+  CheckSquare,
+  Settings,
+  LogOut,
+  Video,
+  BarChart2,
+  BookOpen,
+  Calendar,
+  Award,
+} from "lucide-react";
+import { useData } from "../../context/DataContext";
 
-const Sidebar = ({ isAdmin = false }) => {
+const Sidebar = () => {
   const location = useLocation();
+  const { logout, user } = useData();
+
+  // Determine if user is admin based on role
+  const isAdmin = user?.role === "admin";
 
   const adminLinks = [
-    { to: "/admin/dashboard", text: "Dashboard", icon: "📊" },
-    { to: "/admin/courses", text: "Courses", icon: "📚" },
-    { to: "/admin/users", text: "Users", icon: "👥" },
-    { to: "/admin/attendance", text: "Attendance", icon: "📋" },
-    { to: "/admin/settings", text: "Settings", icon: "⚙️" },
+    {
+      to: "/admin/dashboard",
+      text: "Dashboard",
+      icon: <LayoutDashboard size={20} />,
+    },
+    { to: "/admin/courses", text: "My Courses", icon: <Book size={20} /> },
+    { to: "/admin/students", text: "Students", icon: <Users size={20} /> },
+    {
+      to: "/admin/attendance",
+      text: "Attendance",
+      icon: <CheckSquare size={20} />,
+    },
+    {
+      to: "/admin/live-classes",
+      text: "Live Classes",
+      icon: <Video size={20} />,
+    },
+    {
+      to: "/admin/analytics",
+      text: "Analytics",
+      icon: <BarChart2 size={20} />,
+    },
+    { to: "/admin/settings", text: "Settings", icon: <Settings size={20} /> },
   ];
 
   const studentLinks = [
-    { to: "/student/dashboard", text: "Dashboard", icon: "📊" },
-    { to: "/student/courses", text: "My Courses", icon: "📚" },
-    { to: "/student/attendance", text: "Attendance", icon: "📋" },
-    { to: "/student/live-classes", text: "Live Classes", icon: "🎥" },
+    {
+      to: "/student/dashboard",
+      text: "Dashboard",
+      icon: <LayoutDashboard size={20} />,
+    },
+    {
+      to: "/student/courses",
+      text: "My Courses",
+      icon: <BookOpen size={20} />,
+    },
+    {
+      to: "/student/attendance",
+      text: "Attendance",
+      icon: <Calendar size={20} />,
+    },
+    { to: "/student/progress", text: "Progress", icon: <Award size={20} /> },
+    {
+      to: "/student/live-classes",
+      text: "Live Classes",
+      icon: <Video size={20} />,
+    },
   ];
 
   const links = isAdmin ? adminLinks : studentLinks;
@@ -24,7 +77,12 @@ const Sidebar = ({ isAdmin = false }) => {
   return (
     <div className="bg-white shadow-lg w-64 min-h-screen flex flex-col">
       <div className="p-4 border-b">
-        <h1 className="text-xl font-bold text-indigo-600">DigiPathashala</h1>
+        <h1 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+          DigiPathashala
+        </h1>
+        <p className="text-xs text-gray-500 mt-1">
+          {isAdmin ? "Teacher Portal" : "Student Portal"}
+        </p>
       </div>
 
       <nav className="flex-1 overflow-y-auto pt-5 pb-4">
@@ -37,12 +95,12 @@ const Sidebar = ({ isAdmin = false }) => {
                 group flex items-center px-4 py-3 text-sm font-medium rounded-md 
                 ${
                   location.pathname === link.to
-                    ? "bg-indigo-100 text-indigo-700"
-                    : "text-gray-700 hover:bg-indigo-50 hover:text-indigo-700"
+                    ? "bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 border-l-4 border-blue-600"
+                    : "text-gray-700 hover:bg-gray-50"
                 }
               `}
             >
-              <span className="text-xl mr-3">{link.icon}</span>
+              <span className="mr-3 text-gray-500">{link.icon}</span>
               {link.text}
             </Link>
           ))}
@@ -50,13 +108,21 @@ const Sidebar = ({ isAdmin = false }) => {
       </nav>
 
       <div className="p-4 border-t">
-        <Link
-          to="/"
-          className="group flex items-center px-4 py-2 text-sm font-medium rounded-md text-red-700 hover:bg-red-50"
+        <button
+          onClick={logout}
+          className="flex items-center px-4 py-2 text-sm font-medium text-red-600 rounded-md hover:bg-red-50 w-full"
         >
-          <span className="text-xl mr-3">🚪</span>
+          <LogOut size={20} className="mr-3" />
           Logout
-        </Link>
+        </button>
+      </div>
+
+      <div className="p-4 bg-blue-50 mx-2 rounded-lg mb-4">
+        <div className="text-xs text-blue-700">
+          <p className="font-semibold">Need Help?</p>
+          <p className="mt-1">Contact support at:</p>
+          <p>support@digipathashala.com</p>
+        </div>
       </div>
     </div>
   );

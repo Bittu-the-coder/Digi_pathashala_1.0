@@ -17,12 +17,27 @@ import Users from "./pages/admin/Users";
 import Attendance from "./pages/admin/Attendance";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { useData } from "./context/DataContext";
+import Contact from "./pages/Contact";
+import About from "./pages/About";
+import HomeCourses from "./pages/HomeCourses";
+import Teachers from "./pages/Teachers";
+import Resources from "./pages/Resources";
+import CourseAttendance from "./pages/admin/CourseAttendance";
+import StudentCourseAttendance from "./pages/student/StudentCourseAttendance";
+import LiveClassCreate from "./pages/admin/LiveClassCreate";
+import Analytics from "./pages/admin/Analytics";
+import Performance from "./pages/admin/Performance";
+import Settings from "./pages/admin/Settings";
+import NewCourse from "./pages/admin/NewCourse";
+import { default as AdminProfile } from "./pages/admin/Profile";
+import { default as StudentProfile } from "./pages/student/Profile";
 
 const AppRoutes = () => {
   const { user } = useData();
 
   return (
     <Routes>
+      {/* Public Routes */}
       <Route
         path="/"
         element={user ? <Navigate to={`/${user.role}/dashboard`} /> : <Home />}
@@ -32,87 +47,74 @@ const AppRoutes = () => {
       <Route path="/admin-register" element={<AdminRegister />} />
       <Route path="/student-signin" element={<StudentSignIn />} />
       <Route path="/student-register" element={<StudentRegister />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/courses" element={<HomeCourses />} />
+      <Route path="/resources" element={<Resources />} />
+      <Route path="/teachers" element={<Teachers />} />
 
-      {/* Admin Routes */}
+      {/* Profile Routes */}
       <Route
-        path="/admin/dashboard"
+        path="/profile"
         element={
-          <ProtectedRoute allowedRole="admin">
-            <AdminDashboard />
-          </ProtectedRoute>
+          user ? (
+            <Navigate to={`/${user.role}/profile`} replace />
+          ) : (
+            <Navigate to="/choose-user" replace />
+          )
         }
       />
+
+      {/* Admin/Teacher Routes */}
       <Route
-        path="/admin/courses"
+        path="/admin/*"
         element={
           <ProtectedRoute allowedRole="admin">
-            <Courses />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/admin/users"
-        element={
-          <ProtectedRoute allowedRole="admin">
-            <Users />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/admin/attendance"
-        element={
-          <ProtectedRoute allowedRole="admin">
-            <Attendance />
+            <Routes>
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="courses" element={<Courses />} />
+              <Route path="courses/new" element={<NewCourse />} />
+              <Route path="courses/:courseId" element={<CourseDetail />} />
+              <Route path="courses/:courseId/edit" element={<NewCourse />} />
+              <Route
+                path="courses/:courseId/attendance"
+                element={<CourseAttendance />}
+              />
+              <Route path="students" element={<Users />} />
+              <Route path="users" element={<Users />} />
+              <Route path="attendance" element={<Attendance />} />
+              <Route path="attendance/mark" element={<Attendance />} />
+              <Route path="live-classes" element={<LiveClasses />} />
+              <Route path="live-class/create" element={<LiveClassCreate />} />
+              <Route path="analytics" element={<Analytics />} />
+              <Route path="analytics/performance" element={<Performance />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="profile" element={<AdminProfile />} />
+              <Route path="enrollments" element={<Users />} />
+            </Routes>
           </ProtectedRoute>
         }
       />
 
       {/* Student Routes */}
       <Route
-        path="/student/dashboard"
+        path="/student/*"
         element={
           <ProtectedRoute allowedRole="student">
-            <StudentDashboard />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/student/courses"
-        element={
-          <ProtectedRoute allowedRole="student">
-            <StudentCourses />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/student/courses/:id"
-        element={
-          <ProtectedRoute allowedRole="student">
-            <CourseDetail />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/student/attendance"
-        element={
-          <ProtectedRoute allowedRole="student">
-            <StudentAttendance />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/student/progress"
-        element={
-          <ProtectedRoute allowedRole="student">
-            <StudentProgress />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/student/live-classes"
-        element={
-          <ProtectedRoute allowedRole="student">
-            <LiveClasses />
+            <Routes>
+              <Route path="dashboard" element={<StudentDashboard />} />
+              <Route path="courses" element={<StudentCourses />} />
+              <Route path="courses/:id" element={<CourseDetail />} />
+              <Route
+                path="courses/:courseId/attendance"
+                element={<StudentCourseAttendance />}
+              />
+              <Route path="attendance" element={<StudentAttendance />} />
+              <Route path="progress" element={<StudentProgress />} />
+              <Route path="live-classes" element={<LiveClasses />} />
+              <Route path="profile" element={<StudentProfile />} />
+              <Route path="settings" element={<Settings />} />
+            </Routes>
           </ProtectedRoute>
         }
       />

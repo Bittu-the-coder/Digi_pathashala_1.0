@@ -33,6 +33,7 @@ const sampleData = {
       students: 45,
       status: "Active",
       description: "Learn the basics of React framework.",
+      progress: 65,
     },
     {
       id: "102",
@@ -42,6 +43,7 @@ const sampleData = {
       students: 32,
       status: "Active",
       description: "Deep dive into advanced JavaScript concepts.",
+      progress: 42,
     },
     {
       id: "103",
@@ -51,6 +53,7 @@ const sampleData = {
       students: 28,
       status: "Upcoming",
       description: "Learn to design efficient databases.",
+      progress: 0,
     },
   ],
 
@@ -62,6 +65,7 @@ const sampleData = {
       duration: "1.5 hours",
       instructor: "Dr. Smith",
       meetingLink: "https://meet.example.com/react-hooks",
+      subject: "React",
     },
     {
       id: "1002",
@@ -70,6 +74,7 @@ const sampleData = {
       duration: "2 hours",
       instructor: "Prof. Johnson",
       meetingLink: "https://meet.example.com/rest-apis",
+      subject: "Web Development",
     },
     {
       id: "1003",
@@ -78,17 +83,53 @@ const sampleData = {
       duration: "1 hour",
       instructor: "Dr. Williams",
       meetingLink: "https://meet.example.com/sql-optimization",
+      subject: "Database",
     },
   ],
 
   attendance: [
-    { studentId: "1", date: "2023-08-01", present: true },
-    { studentId: "1", date: "2023-08-02", present: true },
-    { studentId: "1", date: "2023-08-03", present: false },
-    { studentId: "1", date: "2023-08-04", present: true },
-    { studentId: "1", date: "2023-08-07", present: true },
-    { studentId: "1", date: "2023-08-08", present: false },
-    { studentId: "1", date: "2023-08-09", present: true },
+    {
+      studentId: "1",
+      date: "2023-08-01",
+      present: true,
+      course: "Introduction to React",
+    },
+    {
+      studentId: "1",
+      date: "2023-08-02",
+      present: true,
+      course: "Advanced JavaScript",
+    },
+    {
+      studentId: "1",
+      date: "2023-08-03",
+      present: false,
+      course: "Introduction to React",
+    },
+    {
+      studentId: "1",
+      date: "2023-08-04",
+      present: true,
+      course: "Advanced JavaScript",
+    },
+    {
+      studentId: "1",
+      date: "2023-08-07",
+      present: true,
+      course: "Introduction to React",
+    },
+    {
+      studentId: "1",
+      date: "2023-08-08",
+      present: false,
+      course: "Advanced JavaScript",
+    },
+    {
+      studentId: "1",
+      date: "2023-08-09",
+      present: true,
+      course: "Introduction to React",
+    },
   ],
 };
 
@@ -97,6 +138,7 @@ export const DataProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [courses, setCourses] = useState(sampleData.courses);
   const [liveClasses, setLiveClasses] = useState(sampleData.liveClasses);
+  const [attendance, setAttendance] = useState(sampleData.attendance);
 
   // Function to log in a user
   const login = (email, password) => {
@@ -130,6 +172,7 @@ export const DataProvider = ({ children }) => {
       .map((a) => ({
         date: a.date,
         present: a.present,
+        course: a.course,
       }));
   };
 
@@ -138,6 +181,7 @@ export const DataProvider = ({ children }) => {
     user,
     courses,
     liveClasses,
+    attendance,
     login,
     logout,
     getStudentAttendance,

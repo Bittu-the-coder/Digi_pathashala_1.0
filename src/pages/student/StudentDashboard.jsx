@@ -1,12 +1,20 @@
 import React from "react";
 import { useData } from "../../context/DataContext";
 import StatsCard from "../../components/common/StatsCard";
+import { Link } from "react-router-dom";
 import {
-  BookOpenIcon,
-  ChartBarIcon,
-  CheckCircleIcon,
-  ClockIcon,
-} from "../../components/icons/Icons";
+  BookOpen,
+  ChartBar,
+  CheckCircle,
+  Clock,
+  Calendar,
+  Award,
+  Video,
+  BookOpen as BookOpenIcon,
+  ChartBar as ChartBarIcon,
+  CheckCircle as CheckCircleIcon,
+  Clock as ClockIcon,
+} from "lucide-react";
 
 // Simple components for student dashboard
 const RecentCourses = ({ courses }) => (
@@ -21,16 +29,42 @@ const RecentCourses = ({ courses }) => (
                 {course.title.charAt(0)}
               </span>
             </div>
-            <div className="ml-3">
+            <div className="ml-3 flex-grow">
               <p className="text-sm font-medium text-gray-900">
                 {course.title}
               </p>
               <p className="text-sm text-gray-500">{course.instructor}</p>
+              <div className="mt-1 w-full">
+                <div className="flex justify-between text-xs mb-1">
+                  <span>Progress</span>
+                  <span>{course.progress}%</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-1.5">
+                  <div
+                    className="bg-blue-600 h-1.5 rounded-full"
+                    style={{ width: `${course.progress}%` }}
+                  ></div>
+                </div>
+              </div>
             </div>
+            <Link
+              to={`/student/courses/${course.id}`}
+              className="ml-4 px-3 py-1 text-xs bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200"
+            >
+              Continue
+            </Link>
           </div>
         </li>
       ))}
     </ul>
+    <div className="mt-4 text-center">
+      <Link
+        to="/student/courses"
+        className="text-sm font-medium text-blue-600 hover:text-blue-800"
+      >
+        View all my courses
+      </Link>
+    </div>
   </div>
 );
 
@@ -44,50 +78,136 @@ const UpcomingClasses = ({ classes }) => (
           <p className="text-sm text-gray-500">
             {new Date(classItem.date).toLocaleString()} ({classItem.duration})
           </p>
-          <a
-            href={classItem.meetingLink}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-2 inline-flex items-center px-3 py-1 border border-transparent text-xs leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Join Class
-          </a>
+          <div className="mt-2 flex justify-between items-center">
+            <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+              {classItem.subject}
+            </span>
+            <a
+              href={classItem.meetingLink}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center px-3 py-1 border border-transparent text-xs leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Join Class
+            </a>
+          </div>
         </li>
       ))}
     </ul>
+    <div className="mt-4 text-center">
+      <Link
+        to="/student/live-classes"
+        className="text-sm font-medium text-blue-600 hover:text-blue-800"
+      >
+        View all scheduled classes
+      </Link>
+    </div>
+  </div>
+);
+
+const RecentAttendance = ({ attendance }) => (
+  <div className="bg-white shadow rounded-lg p-6">
+    <h2 className="text-lg font-medium text-gray-900 mb-4">
+      Attendance Summary
+    </h2>
+    <div className="mb-6">
+      <div className="flex items-center justify-between mb-2">
+        <span className="text-sm font-medium text-gray-700">
+          Overall Attendance
+        </span>
+        <span className="text-sm font-medium text-gray-900">
+          {Math.round(
+            (attendance.filter((a) => a.present).length / attendance.length) *
+              100
+          )}
+          %
+        </span>
+      </div>
+      <div className="w-full bg-gray-200 rounded-full h-2">
+        <div
+          className="bg-green-600 h-2 rounded-full"
+          style={{
+            width: `${Math.round(
+              (attendance.filter((a) => a.present).length / attendance.length) *
+                100
+            )}%`,
+          }}
+        ></div>
+      </div>
+    </div>
+
+    <h3 className="text-sm font-medium text-gray-700 mb-2">Last 5 Classes</h3>
+    <ul className="space-y-2">
+      {attendance.slice(0, 5).map((record, index) => (
+        <li key={index} className="flex items-center justify-between text-sm">
+          <span className="text-gray-600">{record.date}</span>
+          <span
+            className={`px-2 py-1 rounded-full text-xs font-medium ${
+              record.present
+                ? "bg-green-100 text-green-800"
+                : "bg-red-100 text-red-800"
+            }`}
+          >
+            {record.present ? "Present" : "Absent"}
+          </span>
+        </li>
+      ))}
+    </ul>
+
+    <div className="mt-4 text-center">
+      <Link
+        to="/student/attendance"
+        className="text-sm font-medium text-blue-600 hover:text-blue-800"
+      >
+        View complete attendance record
+      </Link>
+    </div>
   </div>
 );
 
 const StudentDashboard = () => {
-  const { user, courses, liveClasses } = useData();
+  const { user, courses, liveClasses, attendance } = useData();
+
+  // Use attendance data from context or fall back to sample data
+  const attendanceRecords = user?.id
+    ? attendance.filter((record) => record.studentId === user.id)
+    : [
+        { date: "2023-10-10", present: true, course: "Advanced Mathematics" },
+        { date: "2023-10-09", present: true, course: "Physics Fundamentals" },
+        { date: "2023-10-08", present: false, course: "Computer Science" },
+        { date: "2023-10-07", present: true, course: "Advanced Mathematics" },
+        { date: "2023-10-06", present: true, course: "Physics Fundamentals" },
+        { date: "2023-10-05", present: true, course: "Computer Science" },
+        { date: "2023-10-04", present: false, course: "Advanced Mathematics" },
+      ];
 
   // Define stats
   const stats = [
     {
       title: "Enrolled Courses",
-      value: user?.enrolledCourses?.length || "0",
-      icon: <BookOpenIcon />,
+      value: user?.enrolledCourses?.length || courses.length || "0",
+      icon: <BookOpen className="h-5 w-5" />,
       bgColor: "bg-blue-500",
       textColor: "text-white",
     },
     {
       title: "Overall Progress",
-      value: user?.progress ? `${user.progress}%` : "0%",
-      icon: <ChartBarIcon />,
+      value: user?.progress ? `${user.progress}%` : "65%",
+      icon: <ChartBar className="h-5 w-5" />,
       bgColor: "bg-green-500",
       textColor: "text-white",
     },
     {
       title: "Attendance Rate",
-      value: user?.attendance ? `${user.attendance}%` : "0%",
-      icon: <CheckCircleIcon />,
+      value: user?.attendance ? `${user.attendance}%` : "87%",
+      icon: <CheckCircle className="h-5 w-5" />,
       bgColor: "bg-yellow-500",
       textColor: "text-white",
     },
     {
       title: "Upcoming Classes",
-      value: "3",
-      icon: <ClockIcon />,
+      value: liveClasses?.length || "3",
+      icon: <Clock className="h-5 w-5" />,
       bgColor: "bg-purple-500",
       textColor: "text-white",
     },
@@ -102,6 +222,51 @@ const StudentDashboard = () => {
         <p className="text-gray-600">
           Welcome back, {user?.name || "Student"}!
         </p>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="bg-white p-4 rounded-lg shadow-md">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <Link
+            to="/student/courses"
+            className="bg-blue-50 p-3 rounded-lg flex flex-col items-center text-center hover:bg-blue-100 transition-colors"
+          >
+            <BookOpen size={20} className="text-blue-600 mb-1" />
+            <span className="text-xs font-medium text-gray-800">
+              My Courses
+            </span>
+          </Link>
+
+          <Link
+            to="/student/live-classes"
+            className="bg-purple-50 p-3 rounded-lg flex flex-col items-center text-center hover:bg-purple-100 transition-colors"
+          >
+            <Video size={20} className="text-purple-600 mb-1" />
+            <span className="text-xs font-medium text-gray-800">
+              Live Classes
+            </span>
+          </Link>
+
+          <Link
+            to="/student/attendance"
+            className="bg-green-50 p-3 rounded-lg flex flex-col items-center text-center hover:bg-green-100 transition-colors"
+          >
+            <Calendar size={20} className="text-green-600 mb-1" />
+            <span className="text-xs font-medium text-gray-800">
+              Attendance
+            </span>
+          </Link>
+
+          <Link
+            to="/student/progress"
+            className="bg-orange-50 p-3 rounded-lg flex flex-col items-center text-center hover:bg-orange-100 transition-colors"
+          >
+            <Award size={20} className="text-orange-600 mb-1" />
+            <span className="text-xs font-medium text-gray-800">
+              My Progress
+            </span>
+          </Link>
+        </div>
       </div>
 
       {/* Stats Cards */}
@@ -123,6 +288,9 @@ const StudentDashboard = () => {
         <RecentCourses courses={courses.slice(0, 3)} />
         <UpcomingClasses classes={liveClasses.slice(0, 3)} />
       </div>
+
+      {/* Attendance Section */}
+      <RecentAttendance attendance={attendanceRecords} />
     </div>
   );
 };
