@@ -76,15 +76,6 @@ const Sidebar = () => {
 
   return (
     <div className="bg-white shadow-lg w-64 min-h-screen flex flex-col">
-      <div className="p-4 border-b">
-        <h1 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-          DigiPathashala
-        </h1>
-        <p className="text-xs text-gray-500 mt-1">
-          {isAdmin ? "Teacher Portal" : "Student Portal"}
-        </p>
-      </div>
-
       <nav className="flex-1 overflow-y-auto pt-5 pb-4">
         <div className="px-2 space-y-1">
           {links.map((link) => (

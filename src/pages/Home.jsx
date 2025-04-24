@@ -13,6 +13,7 @@ import {
   Search,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import image from "../assets/diamond-png.png";
 
 // Animation variants
 const rotatingAnimation = {
@@ -226,13 +227,13 @@ function Hero() {
           className="absolute -top-20 -left-20 hidden md:block"
         >
           <img
-            src="/diamond-png.png"
+            src={image}
             alt="Diamond"
             className="opacity-10 w-[150px] h-[150px] md:w-[200px] md:h-[200px]"
           />
         </motion.div>
 
-        <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-5" />
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1559251606-c623743a6d76?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] opacity-5" />
       </div>
 
       <div className="container mx-auto px-4 flex flex-col lg:flex-row w-full min-h-screen relative z-10">
@@ -241,7 +242,7 @@ function Hero() {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className="left w-full lg:w-1/2 flex justify-center items-start flex-col lg:pr-12 py-12 lg:py-0 mt-20 lg:mt-16"
+          className="left w-full lg:w-1/2 flex justify-center items-start flex-col lg:pr-12 py-0 lg:py-0 lg:mt-0"
         >
           {/* Welcome Badge */}
           <motion.div
@@ -308,16 +309,16 @@ function Hero() {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="right w-full lg:w-1/2 flex flex-col justify-center items-center py-12 lg:py-0 lg:mt-14"
+          className="right w-full lg:w-1/2 flex flex-col justify-center items-center py-12 lg:py-0 lg:mt-0"
         >
-          <div className="w-full max-w-2xl relative lg:mt-24">
+          <div className="w-full max-w-2xl relative lg:mt-0 mt-10">
             <motion.div
               variants={floatingAnimation}
               animate="animate"
               className="rounded-2xl overflow-hidden shadow-2xl"
             >
               <img
-                src="/education-hero.jpg"
+                src="https://media.istockphoto.com/id/1352605843/photo/young-woman-working-at-home-stock-photo.webp?a=1&b=1&s=612x612&w=0&k=20&c=9jhWI0bO8yF2jcWGxCLsPSYTE2vAaa1taXIWGo4XRMM="
                 alt="Digital Education"
                 className="w-full h-auto"
               />

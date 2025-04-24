@@ -53,6 +53,8 @@ const StudentAttendance = () => {
       icon: <CalendarIcon />,
       bgColor: "bg-indigo-500",
       textColor: "text-white",
+      bgImage:
+        "https://source.unsplash.com/random/400x200/?calendar,attendance",
     },
     {
       title: "Total Present Days",
@@ -60,6 +62,7 @@ const StudentAttendance = () => {
       icon: <CheckCircleIcon />,
       bgColor: "bg-green-500",
       textColor: "text-white",
+      bgImage: "https://source.unsplash.com/random/400x200/?check,success",
     },
     {
       title: "Total Absent Days",
@@ -67,14 +70,20 @@ const StudentAttendance = () => {
       icon: <XCircleIcon />,
       bgColor: "bg-red-500",
       textColor: "text-white",
+      bgImage: "https://source.unsplash.com/random/400x200/?cross,error",
     },
   ];
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Attendance</h1>
-        <p className="text-gray-600">Track your class attendance records</p>
+      <div
+        className="relative py-8 px-6 rounded-lg bg-cover bg-center"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://source.unsplash.com/random/1600x400/?education,classroom')`,
+        }}
+      >
+        <h1 className="text-2xl font-bold text-white mb-2">Attendance</h1>
+        <p className="text-gray-200">Track your class attendance records</p>
       </div>
 
       {/* Stats Cards */}
@@ -87,6 +96,7 @@ const StudentAttendance = () => {
             icon={stat.icon}
             bgColor={stat.bgColor}
             textColor={stat.textColor}
+            bgImage={stat.bgImage}
           />
         ))}
       </div>
