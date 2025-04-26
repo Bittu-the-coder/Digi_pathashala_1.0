@@ -35,6 +35,15 @@ export const register = async (userData) => {
   }
 };
 
+export const registerBulkStudents = async (students) => {
+  try {
+    const response = await API.post('/auth/register-bulk', { students });
+    return response.data;
+  } catch (err) {
+    throw err.response?.data || { message: 'Bulk registration failed' };
+  }
+};
+
 export const getCurrentUser = async () => {
   try {
     const response = await API.get('/users/profile');

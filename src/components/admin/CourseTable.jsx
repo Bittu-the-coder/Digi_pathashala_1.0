@@ -1,24 +1,46 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { PencilIcon, TrashIcon, EyeIcon } from "../icons/Icons";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useCourses } from "../../context/CourseContext";
 
-const CourseTable = ({ courses }) => {
+const CourseTable = ({ courses, onRefresh }) => {
   const navigate = useNavigate();
+  const { deleteCourse, updateCourse } = useCourses();
 
   const handleView = (courseId) => {
     navigate(`/admin/courses/${courseId}`);
   };
 
-  const handleEdit = (courseId) => {
-    navigate(`/admin/courses/${courseId}/edit`);
+  const handleEdit = async (courseId) => {
+    try {
+      // Navigate to the edit page with the course ID
+      navigate(`/admin/courses/${courseId}/edit`);
+    } catch (error) {
+      console.error("Edit course error:", error);
+      toast.error(error.response?.data?.message || "Error editing course");
+    }
   };
 
-  const handleDelete = (courseId) => {
-    if (window.confirm("Are you sure you want to delete this course?")) {
-      // In a real app, you would call an API to delete the course
-      toast.success("Course deleted successfully");
-      // You would typically refresh the courses list here
+  const handleDelete = async (courseId) => {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this course? This action cannot be undone."
+      )
+    ) {
+      try {
+        const result = await deleteCourse(courseId);
+        if (result.success) {
+          toast.success("Course deleted successfully");
+          onRefresh(); // Refresh the courses list
+        } else {
+          toast.error(result.message || "Failed to delete course");
+        }
+      } catch (error) {
+        console.error("Delete course error:", error);
+        toast.error(error.response?.data?.message || "Error deleting course");
+      }
     }
   };
 
@@ -61,7 +83,7 @@ const CourseTable = ({ courses }) => {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {courses.map((course) => (
-            <tr key={course.id}>
+            <tr key={course._id}>
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="text-sm font-medium text-gray-900">
                   {course.title}
@@ -71,35 +93,40 @@ const CourseTable = ({ courses }) => {
                 <div className="text-sm text-gray-500">{course.category}</div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-500">{course.students}</div>
+                <div className="text-sm text-gray-500">
+                  {course.enrolledStudents?.length || 0} enrolled
+                </div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <span
                   className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                    course.status === "Active"
+                    course.status === "active"
                       ? "bg-green-100 text-green-800"
+                      : course.status === "upcoming"
+                      ? "bg-blue-100 text-blue-800"
                       : "bg-yellow-100 text-yellow-800"
                   }`}
                 >
-                  {course.status}
+                  {course.status.charAt(0).toUpperCase() +
+                    course.status.slice(1)}
                 </span>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                 <div className="flex justify-end space-x-2">
                   <button
-                    onClick={() => handleView(course.id)}
+                    onClick={() => handleView(course._id)}
                     className="text-blue-600 hover:text-blue-900"
                   >
                     <EyeIcon className="h-5 w-5" />
                   </button>
                   <button
-                    onClick={() => handleEdit(course.id)}
+                    onClick={() => handleEdit(course._id)}
                     className="text-indigo-600 hover:text-indigo-900"
                   >
                     <PencilIcon className="h-5 w-5" />
                   </button>
                   <button
-                    onClick={() => handleDelete(course.id)}
+                    onClick={() => handleDelete(course._id)}
                     className="text-red-600 hover:text-red-900"
                   >
                     <TrashIcon className="h-5 w-5" />

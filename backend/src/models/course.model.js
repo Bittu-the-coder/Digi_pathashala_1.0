@@ -18,6 +18,10 @@ const courseSchema = new Schema(
       ref: 'User',
       required: [true, 'Course instructor is required'],
     },
+    price: {
+      type: Number,
+      default: 0,
+    },
     duration: {
       type: String,
     },
@@ -56,7 +60,7 @@ const courseSchema = new Schema(
     },
     maxStudents: {
       type: Number,
-      default: 50,
+      default: 80,
     },
   },
   {

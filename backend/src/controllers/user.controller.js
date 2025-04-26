@@ -45,6 +45,28 @@ exports.getStudents = async (req, res) => {
   }
 };
 
+// @desc    Get all teachers (for admins)
+// @route   GET /api/users/teachers
+// @access  Private/Admin
+exports.getTeachers = async (req, res) => {
+  try {
+    const teachers = await User.find({ role: 'teacher' }).select('-password');
+
+    res.status(200).json({
+      success: true,
+      count: teachers.length,
+      data: teachers,
+    });
+  } catch (error) {
+    console.error('Get teachers error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching teachers',
+      error: error.message,
+    });
+  }
+};
+
 // @desc    Get current user
 // @route   GET /api/users/profile
 // @access  Private

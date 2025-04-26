@@ -1,16 +1,15 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Save, X, Upload, Calendar, Clock, Users } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Save, X, Calendar, Clock } from "lucide-react";
 import toast from "react-hot-toast";
-import { useAuth } from "../../context/AuthContext";
 import { useCourses } from "../../context/CourseContext";
 
-const NewCourse = () => {
+const CourseEdit = () => {
   const navigate = useNavigate();
-  const { createCourse } = useCourses();
-  const { currentUser } = useAuth();
+  const { courseId } = useParams();
+  const { courses, updateCourse } = useCourses();
   const [loading, setLoading] = useState(false);
+
   const [course, setCourse] = useState({
     title: "",
     description: "",
@@ -25,7 +24,7 @@ const NewCourse = () => {
       startTime: "",
       endTime: "",
     },
-    startDate: new Date().toISOString().split("T")[0],
+    startDate: "",
     endDate: "",
     maxStudents: 50,
   });
@@ -39,6 +38,20 @@ const NewCourse = () => {
     "Saturday",
     "Sunday",
   ];
+
+  useEffect(() => {
+    // Find the course to edit
+    const courseToEdit = courses.find((c) => c._id === courseId);
+    if (courseToEdit) {
+      // Format the dates to work with date inputs
+      const formattedCourse = {
+        ...courseToEdit,
+        startDate: courseToEdit.startDate?.split("T")[0] || "",
+        endDate: courseToEdit.endDate?.split("T")[0] || "",
+      };
+      setCourse(formattedCourse);
+    }
+  }, [courseId, courses]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -87,25 +100,23 @@ const NewCourse = () => {
       // Prepare data for API submission
       const courseData = {
         ...course,
-        // Ensure price is a number
         price: Number(course.price),
         maxStudents: Number(course.maxStudents),
-        // Convert duration to string as per model requirement
         duration: String(course.duration) + " hours",
       };
 
-      // Call the createCourse function with the course data
-      const result = await createCourse(courseData);
+      // Call the updateCourse function with the course data
+      const result = await updateCourse(courseId, courseData);
 
       if (result.success) {
-        toast.success("Course created successfully!");
+        toast.success("Course updated successfully!");
         navigate("/admin/courses");
       } else {
-        toast.error(result.error || "Failed to create course");
+        toast.error(result.message || "Failed to update course");
       }
     } catch (error) {
-      console.error("Create course error:", error);
-      toast.error(error.response?.data?.message || "Error creating course");
+      console.error("Update course error:", error);
+      toast.error(error.response?.data?.message || "Error updating course");
     } finally {
       setLoading(false);
     }
@@ -118,7 +129,7 @@ const NewCourse = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900">Create New Course</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Edit Course</h1>
         <div className="flex gap-2">
           <button
             onClick={handleCancel}
@@ -133,7 +144,7 @@ const NewCourse = () => {
             className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 flex items-center gap-2"
           >
             <Save size={18} />
-            {loading ? "Saving..." : "Save Course"}
+            {loading ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </div>
@@ -344,7 +355,7 @@ const NewCourse = () => {
                           : "bg-gray-100 text-gray-700"
                       }`}
                     >
-                      {day.substring(0, 3)}
+                      {day}
                     </button>
                   ))}
                 </div>
@@ -374,6 +385,7 @@ const NewCourse = () => {
                     />
                   </div>
                 </div>
+
                 <div>
                   <label
                     htmlFor="endTime"
@@ -438,7 +450,7 @@ const NewCourse = () => {
                     type="date"
                     id="endDate"
                     name="endDate"
-                    value={course.endDate || ""}
+                    value={course.endDate}
                     onChange={handleDateChange}
                     className="block w-full pl-10 px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   />
@@ -472,4 +484,4 @@ const NewCourse = () => {
   );
 };
 
-export default NewCourse;
+export default CourseEdit;

@@ -8,7 +8,8 @@ import StudentRegister from "./components/auth/StudentRegister";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import StudentDashboard from "./pages/student/StudentDashboard";
 import StudentCourses from "./pages/student/StudentCourses";
-import CourseDetail from "./pages/student/CourseDetail";
+import { default as StudentCourseDetail } from "./pages/student/CourseDetail";
+import { default as AdminCourseDetail } from "./pages/admin/CourseDetail";
 import StudentAttendance from "./pages/student/StudentAttendance";
 import StudentProgress from "./pages/student/StudentProgress";
 import LiveClasses from "./pages/student/LiveClasses";
@@ -31,6 +32,10 @@ import Settings from "./pages/admin/Settings";
 import NewCourse from "./pages/admin/NewCourse";
 import { default as AdminProfile } from "./pages/admin/Profile";
 import { default as StudentProfile } from "./pages/student/Profile";
+import ExploreCourses from "./pages/student/ExploreCourses";
+import ExploreTeachers from "./pages/student/ExploreTeachers";
+import CourseCreation from "./trash/CourseCreation";
+import CourseEdit from "./pages/admin/CourseEdit";
 
 const AppRoutes = () => {
   const { currentUser, isAdmin, isStudent } = useAuth();
@@ -79,8 +84,8 @@ const AppRoutes = () => {
         <Route path="dashboard" element={<AdminDashboard />} />
         <Route path="courses" element={<Courses />} />
         <Route path="courses/new" element={<NewCourse />} />
-        <Route path="courses/:courseId" element={<CourseDetail />} />
-        <Route path="courses/:courseId/edit" element={<NewCourse />} />
+        <Route path="courses/:courseId" element={<AdminCourseDetail />} />
+        <Route path="courses/:courseId/edit" element={<CourseEdit />} />
         <Route
           path="courses/:courseId/attendance"
           element={<CourseAttendance />}
@@ -105,7 +110,9 @@ const AppRoutes = () => {
       >
         <Route path="dashboard" element={<StudentDashboard />} />
         <Route path="courses" element={<StudentCourses />} />
-        <Route path="courses/:id" element={<CourseDetail />} />
+        <Route path="explore-courses" element={<ExploreCourses />} />
+        <Route path="explore-teachers" element={<ExploreTeachers />} />
+        <Route path="courses/:id" element={<StudentCourseDetail />} />
         <Route
           path="courses/:courseId/attendance"
           element={<StudentCourseAttendance />}

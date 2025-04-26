@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useData } from "../../context/DataContext";
 import StatsCard from "../../components/common/StatsCard";
 import { Link } from "react-router-dom";
@@ -15,56 +15,78 @@ import {
   CheckCircle as CheckCircleIcon,
   Clock as ClockIcon,
 } from "lucide-react";
+import { useCourses } from "../../context/CourseContext";
+import { useAuth } from "../../context/AuthContext";
 
 // Simple components for student dashboard
 const RecentCourses = ({ courses }) => (
   <div className="bg-white shadow rounded-lg p-6">
     <h2 className="text-lg font-medium text-gray-900 mb-4">Recent Courses</h2>
-    <ul className="divide-y divide-gray-200">
-      {courses.map((course) => (
-        <li key={course.id} className="py-4">
-          <div className="flex items-center">
-            <div className="flex-shrink-0 h-10 w-10 rounded bg-indigo-100 flex items-center justify-center">
-              <span className="text-indigo-600 font-bold">
-                {course.title.charAt(0)}
-              </span>
-            </div>
-            <div className="ml-3 flex-grow">
-              <p className="text-sm font-medium text-gray-900">
-                {course.title}
-              </p>
-              <p className="text-sm text-gray-500">{course.instructor}</p>
-              <div className="mt-1 w-full">
-                <div className="flex justify-between text-xs mb-1">
-                  <span>Progress</span>
-                  <span>{course.progress}%</span>
+    {courses.length > 0 ? (
+      <>
+        <ul className="divide-y divide-gray-200">
+          {courses.map((course) => (
+            <li key={course._id || course.id} className="py-4">
+              <div className="flex items-center">
+                <div className="flex-shrink-0 h-10 w-10 rounded bg-indigo-100 flex items-center justify-center">
+                  <span className="text-indigo-600 font-bold">
+                    {course.title.charAt(0)}
+                  </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-1.5">
-                  <div
-                    className="bg-blue-600 h-1.5 rounded-full"
-                    style={{ width: `${course.progress}%` }}
-                  ></div>
+                <div className="ml-3 flex-grow">
+                  <p className="text-sm font-medium text-gray-900">
+                    {course.title}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    {typeof course.instructor === "object"
+                      ? course.instructor.name
+                      : course.instructor}
+                  </p>
+                  <div className="mt-1 w-full">
+                    <div className="flex justify-between text-xs mb-1">
+                      <span>Progress</span>
+                      <span>{course.progress || 0}%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-1.5">
+                      <div
+                        className="bg-blue-600 h-1.5 rounded-full"
+                        style={{ width: `${course.progress || 0}%` }}
+                      ></div>
+                    </div>
+                  </div>
                 </div>
+                <Link
+                  to={`/student/courses/${course._id || course.id}`}
+                  className="ml-4 px-3 py-1 text-xs bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200"
+                >
+                  Continue
+                </Link>
               </div>
-            </div>
-            <Link
-              to={`/student/courses/${course.id}`}
-              className="ml-4 px-3 py-1 text-xs bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200"
-            >
-              Continue
-            </Link>
-          </div>
-        </li>
-      ))}
-    </ul>
-    <div className="mt-4 text-center">
-      <Link
-        to="/student/courses"
-        className="text-sm font-medium text-blue-600 hover:text-blue-800"
-      >
-        View all my courses
-      </Link>
-    </div>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-4 text-center">
+          <Link
+            to="/student/courses"
+            className="text-sm font-medium text-blue-600 hover:text-blue-800"
+          >
+            View all my courses
+          </Link>
+        </div>
+      </>
+    ) : (
+      <div className="text-center py-5">
+        <p className="text-gray-500 mb-4">
+          You haven't enrolled in any courses yet
+        </p>
+        <Link
+          to="/courses"
+          className="inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+        >
+          Explore Courses
+        </Link>
+      </div>
+    )}
   </div>
 );
 
@@ -166,7 +188,34 @@ const RecentAttendance = ({ attendance }) => (
 );
 
 const StudentDashboard = () => {
-  const { user, courses, liveClasses, attendance } = useData();
+  const { liveClasses, attendance } = useData();
+  const { currentUser } = useAuth();
+  const { getStudentCourses } = useCourses();
+  const [enrolledCourses, setEnrolledCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const user = currentUser;
+
+  // Fetch enrolled courses when component mounts
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await getStudentCourses();
+        if (response && response.success) {
+          setEnrolledCourses(response.data || []);
+        } else {
+          console.error("Failed to fetch student courses:", response?.message);
+          setEnrolledCourses([]);
+        }
+      } catch (error) {
+        console.error("Error fetching student courses:", error);
+        setEnrolledCourses([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, [getStudentCourses]);
 
   // Use attendance data from context or fall back to sample data
   const attendanceRecords = user?.id
@@ -185,7 +234,7 @@ const StudentDashboard = () => {
   const stats = [
     {
       title: "Enrolled Courses",
-      value: user?.enrolledCourses?.length || courses.length || "0",
+      value: enrolledCourses.length || "0",
       icon: <BookOpen className="h-5 w-5" />,
       bgColor: "bg-blue-500",
       textColor: "text-white",
@@ -285,7 +334,13 @@ const StudentDashboard = () => {
 
       {/* Content Area */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <RecentCourses courses={courses.slice(0, 3)} />
+        {loading ? (
+          <div className="bg-white shadow rounded-lg p-6 flex items-center justify-center">
+            <p>Loading your courses...</p>
+          </div>
+        ) : (
+          <RecentCourses courses={enrolledCourses.slice(0, 3)} />
+        )}
         <UpcomingClasses classes={liveClasses.slice(0, 3)} />
       </div>
 

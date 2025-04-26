@@ -145,3 +145,75 @@ exports.getMe = async (req, res) => {
     });
   }
 };
+
+// @desc    Register multiple students in bulk
+// @route   POST /api/auth/register-bulk
+// @access  Private (Admin only)
+exports.registerBulkStudents = async (req, res) => {
+  try {
+    const { students } = req.body;
+
+    if (!students || !Array.isArray(students) || students.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide a valid list of students'
+      });
+    }
+
+    // Plain password - will be hashed by the pre-save hook in the User model
+    const password = 'design@123';
+
+    const results = [];
+    const errors = [];
+
+    for (const student of students) {
+      try {
+        const email = `${student.regNo}@mmmut.ac.in`.toLowerCase();
+
+        // Check if user already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+          errors.push({ regNo: student.regNo, message: 'User already exists' });
+          continue;
+        }
+
+        const userData = {
+          name: student.name,
+          email,
+          password, // The pre-save hook will hash this automatically
+          role: 'student',
+          bio: `Father's Name: ${student.fatherName}`
+        };
+
+        const user = await User.create(userData);
+        results.push({
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          regNo: student.regNo
+        });
+      } catch (error) {
+        errors.push({
+          regNo: student.regNo,
+          message: error.message
+        });
+      }
+    }
+
+    res.status(200).json({
+      success: true,
+      message: `Successfully registered ${results.length} students`,
+      registered: results.length,
+      failed: errors.length,
+      results,
+      errors
+    });
+  } catch (error) {
+    console.error('Bulk registration error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error during bulk registration',
+      error: error.message
+    });
+  }
+};

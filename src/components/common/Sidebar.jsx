@@ -67,6 +67,16 @@ const Sidebar = () => {
       icon: <BookOpen size={20} />,
     },
     {
+      to: "/student/explore-courses", // New route
+      text: "Explore Courses",
+      icon: <Book size={20} />, // Using Book icon for Explore Courses
+    },
+    {
+      to: "/student/explore-teachers", // New route
+      text: "Explore Teachers",
+      icon: <Users size={20} />,
+    },
+    {
       to: "/student/attendance",
       text: "Attendance",
       icon: <Calendar size={20} />,

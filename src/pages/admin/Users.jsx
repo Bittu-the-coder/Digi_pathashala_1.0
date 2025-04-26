@@ -1,74 +1,123 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import UserTable from "../../components/admin/UserTable";
-import Button from "../../components/common/Button";
-import { PlusIcon, SearchIcon } from "../../components/icons/Icons";
-import { COURSE_CATEGORIES, USER_ROLES } from "../../utils/constants";
+import { SearchIcon } from "../../components/icons/Icons";
+import { useAuth } from "../../context/AuthContext";
+import { useCourses } from "../../context/CourseContext";
+import { toast } from "react-hot-toast";
+import API from "../../services/api";
 
 const Users = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedRole, setSelectedRole] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const { currentUser } = useAuth();
+  const { TeacherCourses, fetchInstructorCourses } = useCourses();
+  const [studentsWithEnrollments, setStudentsWithEnrollments] = useState([]);
 
-  // Sample user data for demonstration
-  const users = [
-    {
-      id: "1",
-      name: "John Doe",
-      email: "john.doe@example.com",
-      role: "student",
-      status: "active",
-    },
-    {
-      id: "2",
-      name: "Jane Smith",
-      email: "jane.smith@example.com",
-      role: "student",
-      status: "active",
-    },
-    {
-      id: "3",
-      name: "Robert Johnson",
-      email: "robert.j@example.com",
-      role: "teacher",
-      status: "active",
-    },
-    {
-      id: "4",
-      name: "Mary Williams",
-      email: "mary.w@example.com",
-      role: "admin",
-      status: "active",
-    },
-    {
-      id: "5",
-      name: "David Brown",
-      email: "david.b@example.com",
-      role: "student",
-      status: "inactive",
-    },
-  ];
+  // Fetch instructor courses and process student data
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!currentUser || !["admin", "teacher"].includes(currentUser.role))
+        return;
 
-  // Filter users based on search term and selected role
-  const filteredUsers = users.filter((user) => {
-    const matchesSearch =
-      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase());
+      setLoading(true);
+      setError(null);
 
-    const matchesRole = selectedRole === "" || user.role === selectedRole;
+      try {
+        await fetchInstructorCourses();
+      } catch (err) {
+        setError(err.message || "Failed to load data");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return matchesSearch && matchesRole;
+    fetchData();
+  }, [currentUser]);
+
+  // Process enrolled students with their course counts
+  useEffect(() => {
+    if (TeacherCourses.length === 0) return;
+
+    const enrollmentMap = new Map();
+
+    TeacherCourses.forEach((course) => {
+      course.enrolledStudents?.forEach((student) => {
+        if (!enrollmentMap.has(student._id)) {
+          enrollmentMap.set(student._id, {
+            ...student,
+            enrolledCoursesCount: 1,
+          });
+        } else {
+          const existing = enrollmentMap.get(student._id);
+          enrollmentMap.set(student._id, {
+            ...existing,
+            enrolledCoursesCount: existing.enrolledCoursesCount + 1,
+          });
+        }
+      });
+    });
+
+    setStudentsWithEnrollments(Array.from(enrollmentMap.values()));
+  }, [TeacherCourses]);
+
+  // Handle student deletion
+  const handleDeleteStudent = async (studentId) => {
+    if (!window.confirm("Are you sure you want to remove this student?"))
+      return;
+
+    try {
+      await API.delete(`/users/${studentId}`, {
+        headers: {
+          Authorization: `Bearer ${currentUser.token}`,
+        },
+      });
+
+      // Update the local state to remove the deleted student
+      setStudentsWithEnrollments((prev) =>
+        prev.filter((student) => student._id !== studentId)
+      );
+
+      toast.success("Student removed successfully");
+    } catch (error) {
+      console.error("Error deleting student:", error);
+      toast.error(error.response?.data?.message || "Failed to remove student");
+    }
+  };
+
+  // Filter students based on search term
+  const filteredStudents = studentsWithEnrollments.filter((student) => {
+    return (
+      student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.email.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   });
+
+  if (loading) {
+    return (
+      <div className="flex-1 p-6 bg-gradient-to-br from-blue-50 to-indigo-50">
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex-1 p-6 bg-gradient-to-br from-blue-50 to-indigo-50">
+        <div className="bg-white rounded-xl shadow-md p-6 text-red-500">
+          Error: {error}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex">
       <main className="flex-1 p-6 bg-gradient-to-br from-blue-50 to-indigo-50">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-800">User Management</h1>
-          <Button
-            className="bg-gradient-to-r from-blue-500 to-blue-600"
-            icon={<PlusIcon />}
-          >
-            Add New User
-          </Button>
+          <h1 className="text-3xl font-bold text-gray-800">Your Students</h1>
         </div>
 
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
@@ -79,29 +128,21 @@ const Users = () => {
               </div>
               <input
                 type="text"
-                placeholder="Search users by name or email..."
+                placeholder="Search your students..."
                 className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            <div>
-              <select
-                className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={selectedRole}
-                onChange={(e) => setSelectedRole(e.target.value)}
-              >
-                <option value="">All Roles</option>
-                <option value={USER_ROLES.ADMIN}>Admin</option>
-                <option value={USER_ROLES.TEACHER}>Teacher</option>
-                <option value={USER_ROLES.STUDENT}>Student</option>
-              </select>
-            </div>
           </div>
         </div>
 
         <div className="bg-white rounded-xl shadow-md overflow-hidden">
-          <UserTable users={filteredUsers} />
+          <UserTable
+            users={filteredStudents}
+            showEnrollments={true}
+            onDelete={handleDeleteStudent}
+          />
         </div>
       </main>
     </div>
