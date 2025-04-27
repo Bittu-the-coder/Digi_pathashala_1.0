@@ -159,7 +159,7 @@ export default CourseTable;
 export const DeleteCourseModal = ({ onConfirm, onCancel }) => {
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
-      <div className="fixed inset-0 bg-black opacity-50"></div>
+      <div className="fixed inset-0 backdrop-blur-[5px]"></div>
       <div className="flex items-center justify-center min-h-screen">
         <div className="relative bg-white rounded-lg shadow-lg p-6 w-96 max-w-md mx-auto">
           <h2 className="text-xl font-bold mb-4 text-gray-900">

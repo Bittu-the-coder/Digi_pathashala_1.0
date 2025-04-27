@@ -38,7 +38,7 @@ const LiveClassCard = ({ classItem }) => {
             </svg>
             {classItem.time}
           </div>
-          <div className="flex items-center text-sm text-gray-600">
+          {/* <div className="flex items-center text-sm text-gray-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4 mr-2"
@@ -54,7 +54,7 @@ const LiveClassCard = ({ classItem }) => {
               />
             </svg>
             {classItem.participants} participants
-          </div>
+          </div> */}
         </div>
 
         {isUpcoming ? (
