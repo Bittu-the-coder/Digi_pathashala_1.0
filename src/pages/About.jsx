@@ -80,7 +80,7 @@ const About = () => {
               className="md:w-1/2"
             >
               <img
-                src="https://source.unsplash.com/random/600x400/?education"
+                src="https://plus.unsplash.com/premium_photo-1682284353484-4e16001c58eb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGVkdWNhdGlvbnxlbnwwfHwwfHx8MA%3D%3D"
                 alt="Our Story"
                 className="rounded-xl shadow-lg w-full h-auto"
               />

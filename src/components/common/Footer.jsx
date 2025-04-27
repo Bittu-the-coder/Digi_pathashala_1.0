@@ -36,7 +36,7 @@ const Footer = () => {
             </h3>
             <ul className="space-y-3">
               {[
-                { name: "Find Teachers", link: "/teachers" },
+                // { name: "Find Teachers", link: "/teachers" },
                 { name: "Browse Courses", link: "/courses" },
                 { name: "Study Resources", link: "/resources" },
                 { name: "Become a Teacher", link: "/admin-signin" },

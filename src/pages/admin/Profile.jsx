@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useData } from "../../context/DataContext";
 import { useAuth } from "../../context/AuthContext";
+import { useCourses } from "../../context/CourseContext";
+import { useClass } from "../../context/ClassContext";
 import {
   User,
   Mail,
@@ -18,8 +20,16 @@ import Input from "../../components/common/Input";
 const Profile = () => {
   const { user, updateUserProfile } = useData();
   const { currentUser } = useAuth();
+  const { courses, fetchInstructorCourses, TeacherCourses } = useCourses();
+  const { liveClasses } = useClass();
   const [isEditing, setIsEditing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [teacherStats, setTeacherStats] = useState({
+    coursesTeaching: 0,
+    totalStudents: 0,
+    avgRating: "N/A",
+    liveClasses: 0,
+  });
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -29,6 +39,8 @@ const Profile = () => {
     specialization: "",
     joinedDate: "",
   });
+
+  console.log("User data:", liveClasses, user, currentUser);
 
   // Initialize form data when component mounts or when user data changes
   useEffect(() => {
@@ -57,6 +69,56 @@ const Profile = () => {
       });
     }
   }, [user, currentUser]);
+
+  // Fetch instructor courses and calculate stats
+  useEffect(() => {
+    const loadTeacherStats = async () => {
+      try {
+        // Fetch instructor courses if not already loaded
+        if (TeacherCourses.length === 0) {
+          await fetchInstructorCourses();
+        }
+
+        // Calculate statistics
+        const teachingCourses = TeacherCourses.length;
+
+        // Calculate total students from all courses
+        const students = TeacherCourses.reduce((total, course) => {
+          return total + (course.enrolledStudents?.length || 0);
+        }, 0);
+
+        // Calculate average rating if available
+        let rating = "4.9/5"; // Default rating
+        const coursesWithRatings = TeacherCourses.filter(
+          (course) => course.rating !== undefined
+        );
+        if (coursesWithRatings.length > 0) {
+          const totalRating = coursesWithRatings.reduce(
+            (sum, course) => sum + (course.rating || 0),
+            0
+          );
+          const avgRating = totalRating / coursesWithRatings.length;
+          rating = `${avgRating.toFixed(1)}/5`;
+        }
+
+        setTeacherStats({
+          coursesTeaching: teachingCourses,
+          totalStudents: students,
+          avgRating: rating,
+          liveClasses: liveClasses.length,
+        });
+      } catch (error) {
+        console.error("Error calculating teacher statistics:", error);
+      }
+    };
+
+    if (
+      (user && ["admin", "teacher"].includes(user.role)) ||
+      (currentUser && ["admin", "teacher"].includes(currentUser.role))
+    ) {
+      loadTeacherStats();
+    }
+  }, [user, currentUser, fetchInstructorCourses, TeacherCourses, liveClasses]);
 
   // Format date from ISO string or other formats to readable format
   const formatDate = (dateString) => {
@@ -143,12 +205,6 @@ const Profile = () => {
     );
   }
 
-  // Get teacher statistics from user data or use default values
-  const coursesTeaching = user?.coursesTeaching || 12;
-  const totalStudents = user?.totalStudents || 234;
-  const avgRating = user?.avgRating || "4.8/5";
-  const liveClasses = user?.liveClasses || 48;
-
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -221,6 +277,7 @@ const Profile = () => {
                   </label>
 
                   <Input
+                    type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
@@ -232,6 +289,7 @@ const Profile = () => {
                     Email
                   </label>
                   <Input
+                    type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
@@ -243,6 +301,7 @@ const Profile = () => {
                     Phone
                   </label>
                   <Input
+                    type="text"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
@@ -282,6 +341,7 @@ const Profile = () => {
                     onChange={handleChange}
                     className="mt-1 border-none block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     style={{ padding: "0.5rem" }}
+                    placeholder="Tell us about yourself..."
                   />
                 </div>
 
@@ -310,19 +370,27 @@ const Profile = () => {
                   <div className="mt-2 grid grid-cols-2 gap-4">
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-sm text-gray-500">Courses Teaching</p>
-                      <p className="text-xl font-semibold">{coursesTeaching}</p>
+                      <p className="text-xl font-semibold">
+                        {teacherStats.coursesTeaching}
+                      </p>
                     </div>
                     <div className="bg-green-50 p-4 rounded-lg">
                       <p className="text-sm text-gray-500">Total Students</p>
-                      <p className="text-xl font-semibold">{totalStudents}</p>
+                      <p className="text-xl font-semibold">
+                        {teacherStats.totalStudents}
+                      </p>
                     </div>
                     <div className="bg-yellow-50 p-4 rounded-lg">
                       <p className="text-sm text-gray-500">Avg. Rating</p>
-                      <p className="text-xl font-semibold">{avgRating}</p>
+                      <p className="text-xl font-semibold">
+                        {teacherStats.avgRating}
+                      </p>
                     </div>
                     <div className="bg-purple-50 p-4 rounded-lg">
                       <p className="text-sm text-gray-500">Live Classes</p>
-                      <p className="text-xl font-semibold">{liveClasses}</p>
+                      <p className="text-xl font-semibold">
+                        {teacherStats.liveClasses}
+                      </p>
                     </div>
                   </div>
                 </div>

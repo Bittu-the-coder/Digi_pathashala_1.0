@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useData } from "../../context/DataContext";
 import { useAuth } from "../../context/AuthContext";
+import { useCourses } from "../../context/CourseContext";
 import {
   User,
   Mail,
@@ -14,12 +15,22 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import Input from "../../components/common/Input";
+import { useAttendance } from "../../context/AttendanceContext";
 
 const Profile = () => {
   const { user, updateUserProfile } = useData();
   const { currentUser } = useAuth();
+  const { fetchStudentAttendance, error } = useAttendance();
+  const [enrolledCourses, setEnrolledCourses] = useState([]);
+  const { getStudentCourses } = useCourses();
   const [isEditing, setIsEditing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [studentStats, setStudentStats] = useState({
+    enrolledCourses: 0,
+    completedCourses: 0,
+    averageScore: "0%",
+    attendanceRate: "0%",
+  });
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -29,6 +40,78 @@ const Profile = () => {
     interests: "",
     joinedDate: "",
   });
+  const [attendanceData, setAttendanceData] = useState({
+    records: [],
+    stats: {
+      total: 0,
+      present: 0,
+      absent: 0,
+      late: 0,
+      excused: 0,
+      percentage: 0,
+    },
+    markedBy: {},
+  });
+  const [filters, setFilters] = useState({
+    courseId: "all",
+    startDate: "",
+    endDate: "",
+  });
+  const loadAttendanceData = async () => {
+    try {
+      const result = await fetchStudentAttendance(
+        filters.courseId === "all" ? null : filters.courseId,
+        filters.startDate,
+        filters.endDate
+      );
+
+      if (result?.success) {
+        setAttendanceData({
+          records: result.data || [],
+          stats: result.stats || {
+            total: 0,
+            present: 0,
+            absent: 0,
+            late: 0,
+            excused: 0,
+            percentage: 0,
+          },
+          // Extract unique teachers who marked attendance
+          markedBy:
+            result.data?.reduce((acc, record) => {
+              if (record.markedBy && !acc[record.markedBy._id]) {
+                acc[record.markedBy._id] = record.markedBy;
+              }
+              return acc;
+            }, {}) || {},
+        });
+      } else {
+        toast.error(result?.message || "Failed to load attendance data");
+      }
+    } catch (err) {
+      toast.error("Error loading attendance data");
+      console.error("Attendance load error:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (currentUser) {
+      loadAttendanceData();
+    }
+  }, [currentUser, filters]);
+  // Filter attendance records based on enrolled courses
+  const filteredAttendance = attendanceData.records.filter((record) =>
+    enrolledCourses.some((course) => course._id === record.course?._id)
+  );
+
+  // Calculate overall attendance percentage
+  const presentCount = filteredAttendance.filter(
+    (a) => a.status === "present"
+  ).length;
+  const totalCount = filteredAttendance.length;
+
+  const overallPercentage =
+    totalCount > 0 ? Math.round((presentCount / totalCount) * 100) : 100;
 
   // Initialize form data when component mounts or when user data changes
   useEffect(() => {
@@ -57,6 +140,58 @@ const Profile = () => {
       });
     }
   }, [user, currentUser]);
+
+  // Fetch student statistics
+  useEffect(() => {
+    const fetchStudentStats = async () => {
+      try {
+        // Fetch enrolled courses
+        const coursesResponse = await getStudentCourses();
+
+        if (coursesResponse.success) {
+          const courses = coursesResponse.data || [];
+
+          // Calculate statistics
+          const enrolled = courses.length;
+          const completed = courses.filter(
+            (course) => course.progress >= 100
+          ).length;
+
+          // Calculate average score from courses with available scores
+          let avgScore = "0%";
+          const coursesWithScores = courses.filter(
+            (course) => course.score !== undefined
+          );
+          if (coursesWithScores.length > 0) {
+            const totalScore = coursesWithScores.reduce(
+              (sum, course) => sum + (course.score || 0),
+              0
+            );
+            avgScore = `${Math.round(totalScore / coursesWithScores.length)}%`;
+          }
+
+          // Use the calculated overallPercentage for attendance rate or default to 0%
+          const attendance = `${overallPercentage || 0}%`;
+
+          setStudentStats({
+            enrolledCourses: enrolled,
+            completedCourses: completed,
+            averageScore: avgScore,
+            attendanceRate: attendance,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching student statistics:", error);
+      }
+    };
+
+    if (
+      (user && user.role === "student") ||
+      (currentUser && currentUser.role === "student")
+    ) {
+      fetchStudentStats();
+    }
+  }, [user, currentUser, getStudentCourses]);
 
   // Format date from ISO string or other formats to readable format
   const formatDate = (dateString) => {
@@ -142,12 +277,6 @@ const Profile = () => {
       </div>
     );
   }
-
-  // Calculate student statistics based on actual user data when available
-  const completedCourses = user?.completedCourses || 3;
-  const enrolledCourses = user?.enrolledCourses?.length || 5;
-  const averageScore = user?.averageScore || "85%";
-  const attendanceRate = user?.attendance ? `${user.attendance}%` : "92%";
 
   return (
     <div className="space-y-6">
@@ -284,7 +413,7 @@ const Profile = () => {
                     rows={4}
                     value={formData.bio}
                     onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                    className="mt-1 border-none block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     style={{ padding: "0.5rem" }}
                     placeholder="Tell us about yourself..."
                   />
@@ -315,21 +444,27 @@ const Profile = () => {
                   <div className="mt-2 grid grid-cols-2 gap-4">
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-sm text-gray-500">Enrolled Courses</p>
-                      <p className="text-xl font-semibold">{enrolledCourses}</p>
+                      <p className="text-xl font-semibold">
+                        {studentStats.enrolledCourses}
+                      </p>
                     </div>
                     <div className="bg-green-50 p-4 rounded-lg">
                       <p className="text-sm text-gray-500">Completed</p>
                       <p className="text-xl font-semibold">
-                        {completedCourses}
+                        {studentStats.completedCourses}
                       </p>
                     </div>
                     <div className="bg-yellow-50 p-4 rounded-lg">
                       <p className="text-sm text-gray-500">Avg. Score</p>
-                      <p className="text-xl font-semibold">{averageScore}</p>
+                      <p className="text-xl font-semibold">
+                        {studentStats.averageScore}
+                      </p>
                     </div>
                     <div className="bg-purple-50 p-4 rounded-lg">
                       <p className="text-sm text-gray-500">Attendance</p>
-                      <p className="text-xl font-semibold">{attendanceRate}</p>
+                      <p className="text-xl font-semibold">
+                        {studentStats.attendanceRate}
+                      </p>
                     </div>
                   </div>
                 </div>
