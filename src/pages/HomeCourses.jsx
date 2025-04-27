@@ -15,7 +15,7 @@ const HomeCourses = () => {
   useEffect(() => {
     fetchCourses();
   }, []);
-  console.log(courses);
+  // console.log(courses);
 
   // Filter courses based on selected category and level
   const filteredCourses = courses.filter(

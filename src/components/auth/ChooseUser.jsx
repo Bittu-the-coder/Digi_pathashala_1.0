@@ -44,24 +44,6 @@ const ChooseUser = () => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-10 p-6 bg-gray-50 rounded-lg"
-        >
-          <p className="text-sm text-gray-600 text-center">
-            <strong>Demo Credentials:</strong>
-            <br />
-            <span className="block mt-2">
-              <strong>Teacher:</strong> admin@example.com / admin123
-            </span>
-            <span className="block mt-1">
-              <strong>Student:</strong> student1@example.com / student123
-            </span>
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.5 }}
           className="mt-6 text-center"
         >

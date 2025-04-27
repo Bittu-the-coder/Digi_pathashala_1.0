@@ -126,12 +126,12 @@ const StudentSignIn = () => {
             </div>
 
             <div className="text-sm">
-              <a
-                href="#"
+              <Link
+                to="/forgot-password"
                 className="font-medium text-blue-600 hover:text-blue-500"
               >
                 Forgot password?
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -169,16 +169,6 @@ const StudentSignIn = () => {
             >
               <ArrowLeft className="mr-1 h-4 w-4" /> Back
             </Link>
-          </div>
-
-          <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-            <p className="text-sm text-gray-600 text-center">
-              <strong>Demo Credentials:</strong>
-              <br />
-              Email: student1@example.com
-              <br />
-              Password: student123
-            </p>
           </div>
         </form>
       </motion.div>

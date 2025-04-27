@@ -28,8 +28,8 @@ const Attendance = () => {
   const [error, setError] = useState(null);
   const [attendanceData, setAttendanceData] = useState([]);
 
-  console.log("Attendance Data:", attendanceData);
-  console.log("Attendance Records:", attendanceRecords);
+  // console.log("Attendance Data:", attendanceData);
+  // console.log("Attendance Records:", attendanceRecords);
 
   // Fetch instructor courses on mount
   useEffect(() => {

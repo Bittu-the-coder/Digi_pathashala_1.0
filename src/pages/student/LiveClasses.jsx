@@ -4,6 +4,7 @@ import { useCourses } from "../../context/CourseContext";
 import { useAuth } from "../../context/AuthContext";
 import LiveClassCard from "../../components/student/LiveClassCard";
 import { CalendarIcon, FilterIcon } from "../../components/icons/Icons";
+import { Link } from "react-router-dom";
 
 const LiveClasses = () => {
   const { liveClasses: allLiveClasses, fetchLiveClasses, loading } = useClass();

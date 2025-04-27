@@ -15,15 +15,15 @@ const ExploreTeachers = () => {
 
   // Fetch teachers when component mounts
   useEffect(() => {
-    console.log("Fetching teachers...");
+    // console.log("Fetching teachers...");
     fetchTeachers();
   }, [fetchTeachers]);
 
   // Debug log for teachers data
   useEffect(() => {
-    console.log("Teachers data:", teachers);
-    console.log("Loading state:", loading);
-    console.log("Error state:", error);
+    // console.log("Teachers data:", teachers);
+    // console.log("Loading state:", loading);
+    // console.log("Error state:", error);
   }, [teachers, loading, error]);
 
   // Filter teachers based on selected subject and search query
@@ -46,7 +46,7 @@ const ExploreTeachers = () => {
 
   // Handle contact teacher
   const handleContact = (teacherId) => {
-    console.log("Contacting teacher:", teacherId);
+    // console.log("Contacting teacher:", teacherId);
     // This would typically open a contact form or messaging interface
   };
 

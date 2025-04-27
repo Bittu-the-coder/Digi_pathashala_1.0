@@ -161,7 +161,7 @@ export const AuthProvider = ({ children }) => {
   // Check for existing token and fetch user data on app load
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("Token from localStorage:", token); // Debugging line
+    // console.log("Token from localStorage:", token); // Debugging line
 
     const fetchUser = async () => {
       if (!token) {
@@ -173,7 +173,7 @@ export const AuthProvider = ({ children }) => {
         const data = await getCurrentUser();
         if (data && data.success && data.data) {
           setCurrentUser({ ...data.data, token }); // Ensure token is included
-          console.log("Current user set:", { ...data.data, token }); // Debugging line
+          // console.log("Current user set:", { ...data.data, token }); // Debugging line
         } else {
           // Handle case where token exists but is invalid
           localStorage.removeItem("token");
@@ -196,10 +196,10 @@ export const AuthProvider = ({ children }) => {
       const data = await adminSignIn(email, password);
       localStorage.setItem("token", data.token);
       setCurrentUser({ ...data.user, token: data.token }); // Ensure token is included
-      console.log("Admin login successful:", {
-        ...data.user,
-        token: data.token,
-      }); // Debugging line
+      // console.log("Admin login successful:", {
+      //   ...data.user,
+      //   token: data.token,
+      // }); // Debugging line
       return { success: true, user: data.user };
     } catch (error) {
       console.error("Admin login error:", error);
@@ -213,10 +213,10 @@ export const AuthProvider = ({ children }) => {
       const data = await studentSignIn(email, password);
       localStorage.setItem("token", data.token);
       setCurrentUser({ ...data.user, token: data.token }); // Ensure token is included
-      console.log("Student login successful:", {
-        ...data.user,
-        token: data.token,
-      }); // Debugging line
+      // console.log("Student login successful:", {
+      //   ...data.user,
+      //   token: data.token,
+      // }); // Debugging line
       return { success: true, user: data.user };
     } catch (error) {
       console.error("Student login error:", error);
@@ -232,10 +232,10 @@ export const AuthProvider = ({ children }) => {
       if (data.token) {
         localStorage.setItem("token", data.token);
         setCurrentUser({ ...data.user, token: data.token }); // Ensure token is included
-        console.log("Registration successful:", {
-          ...data.user,
-          token: data.token,
-        }); // Debugging line
+        // console.log("Registration successful:", {
+        //   ...data.user,
+        //   token: data.token,
+        // }); // Debugging line
       }
       return { success: true, message: data.message, user: data.user };
     } catch (error) {

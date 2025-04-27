@@ -72,3 +72,37 @@ export const logout = async () => {
     throw err.response?.data || { message: 'Logout failed' };
   }
 };
+
+export const forgotPassword = async (email) => {
+  try {
+    const response = await API.post('/auth/forgot-password', { email });
+    return response.data;
+  } catch (err) {
+    throw err.response?.data || { message: 'Password reset request failed' };
+  }
+};
+
+export const resetPassword = async (email, verificationCode, password) => {
+  try {
+    const response = await API.post('/auth/reset-password', {
+      email,
+      verificationCode,
+      password
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response?.data || { message: 'Password reset failed' };
+  }
+};
+
+export const verifyResetCode = async (email, verificationCode) => {
+  try {
+    const response = await API.post('/auth/verify-reset-code', {
+      email,
+      verificationCode
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response?.data || { message: 'Verification failed' };
+  }
+};

@@ -167,26 +167,27 @@ const About = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {[
               {
-                name: "Rajiv Kumar",
+                name: "Bittu Prajapati",
                 role: "Founder & CEO",
-                image: "https://source.unsplash.com/random/300x300/?man",
-              },
-              {
-                name: "Priya Sharma",
-                role: "Chief Academic Officer",
-                image: "https://source.unsplash.com/random/300x300/?woman",
-              },
-              {
-                name: "Aditya Patel",
-                role: "Head of Technology",
-                image: "https://source.unsplash.com/random/300x300/?person",
-              },
-              {
-                name: "Neha Gupta",
-                role: "Director of Operations",
                 image:
-                  "https://source.unsplash.com/random/300x300/?professional",
+                  "https://media.licdn.com/dms/image/v2/D4D03AQEdArzMMonN4Q/profile-displayphoto-shrink_400_400/B4DZXwLhjJHwAk-/0/1743491309095?e=1751500800&v=beta&t=zhn0uS0G2_7XmeoMlXJN3ARSXf9X6TMnRsyFdHmA78o",
               },
+              {
+                name: "Devansh Kumar",
+                role: "Chief Academic Officer",
+                image: "https://source.unsplash.com/random/300x300/?Man",
+              },
+              // {
+              //   name: "Aditya Patel",
+              //   role: "Head of Technology",
+              //   image: "https://source.unsplash.com/random/300x300/?person",
+              // },
+              // {
+              //   name: "Neha Gupta",
+              //   role: "Director of Operations",
+              //   image:
+              //     "https://source.unsplash.com/random/300x300/?professional",
+              // },
             ].map((member, index) => (
               <motion.div
                 key={index}

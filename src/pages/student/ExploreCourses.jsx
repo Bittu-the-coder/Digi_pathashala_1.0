@@ -28,11 +28,11 @@ const ExploreCourses = () => {
 
     try {
       const studentCourses = await getStudentCourses();
-      console.log("Student courses:", studentCourses);
+      // console.log("Student courses:", studentCourses);
       if (studentCourses.success) {
         const enrolledIds = studentCourses.data.map((course) => course._id);
         setEnrolledCourseIds(enrolledIds);
-        console.log("Enrolled course IDs:", enrolledIds);
+        // console.log("Enrolled course IDs:", enrolledIds);
       }
     } catch (error) {
       console.error("Error fetching enrolled courses:", error);

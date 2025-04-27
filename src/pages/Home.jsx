@@ -13,7 +13,7 @@ import {
   Search,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import image from "../assets/diamond-png.png";
+import image from "../assets/diamond.png";
 
 // Animation variants
 const rotatingAnimation = {
@@ -229,7 +229,7 @@ function Hero() {
           <img
             src={image}
             alt="Diamond"
-            className="opacity-10 w-[150px] h-[150px] md:w-[200px] md:h-[200px]"
+            className="opacity-50 w-[150px] h-[150px] md:w-[200px] md:h-[200px]"
           />
         </motion.div>
 
@@ -256,7 +256,7 @@ function Hero() {
             </span>
           </motion.div>
 
-          <div className="title mb-8 relative">
+          <div className="title mb-8 relative ">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

@@ -10,7 +10,7 @@ const CourseDetails = () => {
 
   // Find the course with the matching ID
   const course = courses.find((c) => c._id === courseId);
-  console.log(course);
+  // console.log(course);
 
   if (!course) {
     return <div className="p-4">Course not found</div>;

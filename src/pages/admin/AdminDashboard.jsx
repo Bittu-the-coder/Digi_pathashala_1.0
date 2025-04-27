@@ -26,7 +26,7 @@ const AdminDashboard = () => {
 
   const courses = TeacherCourses;
 
-  console.log("courses", courses);
+  // console.log("courses", courses);
 
   let totalStudentsArray = [];
   courses.forEach((course) => {
@@ -35,7 +35,7 @@ const AdminDashboard = () => {
       totalStudentsArray.push(student._id);
     }
   });
-  console.log("totalStudentsArray", totalStudentsArray);
+  // console.log("totalStudentsArray", totalStudentsArray);
   let totalStudents = 0;
   if (Array.isArray(totalStudentsArray)) {
     const uniqueStudents = new Set(totalStudentsArray);

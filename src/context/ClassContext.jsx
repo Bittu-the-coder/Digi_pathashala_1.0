@@ -28,7 +28,7 @@ export const ClassProvider = ({ children }) => {
   // Create a new live class
   const createLiveClass = async (classData) => {
     try {
-      console.log("Current user:", currentUser); // Debugging line
+      // console.log("Current user:", currentUser); // Debugging line
       if (!currentUser || !currentUser.token) {
         throw new Error("You must be logged in to create a live class");
       }

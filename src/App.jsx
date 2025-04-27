@@ -7,6 +7,7 @@ import { CourseProvider } from "./context/CourseContext";
 import { UserProvider } from "./context/UserContext";
 import { AttendanceProvider } from "./context/AttendanceContext";
 import { ClassProvider } from "./context/ClassContext";
+import { ContactProvider } from "./context/ContactContext";
 
 function App() {
   return (
@@ -16,12 +17,14 @@ function App() {
           <DataProvider>
             <UserProvider>
               <AttendanceProvider>
-                <Router>
-                  <div className="min-h-screen bg-gray-50">
-                    <AppRoutes />
-                    <Toaster position="top-right" />
-                  </div>
-                </Router>
+                <ContactProvider>
+                  <Router>
+                    <div className="min-h-screen bg-gray-50">
+                      <AppRoutes />
+                      <Toaster position="top-right" />
+                    </div>
+                  </Router>
+                </ContactProvider>
               </AttendanceProvider>
             </UserProvider>
           </DataProvider>

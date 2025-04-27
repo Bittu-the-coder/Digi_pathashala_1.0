@@ -23,7 +23,7 @@ const Courses = () => {
 
   const courses = TeacherCourses;
 
-  console.log("courses", courses);
+  // console.log("courses", courses);
 
   // Get unique categories for filter dropdown
   const categories = [

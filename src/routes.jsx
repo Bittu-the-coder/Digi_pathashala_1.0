@@ -5,6 +5,8 @@ import AdminRegister from "./components/auth/AdminRegister";
 import ChooseUser from "./components/auth/ChooseUser";
 import StudentSignIn from "./components/auth/StudentSignIn";
 import StudentRegister from "./components/auth/StudentRegister";
+import ForgotPassword from "./components/auth/ForgotPassword";
+import ResetPassword from "./components/auth/ResetPassword";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import StudentDashboard from "./pages/student/StudentDashboard";
 import StudentCourses from "./pages/student/StudentCourses";
@@ -59,6 +61,8 @@ const AppRoutes = () => {
       <Route path="/admin-register" element={<AdminRegister />} />
       <Route path="/student-signin" element={<StudentSignIn />} />
       <Route path="/student-register" element={<StudentRegister />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/about" element={<About />} />
       <Route path="/courses" element={<HomeCourses />} />

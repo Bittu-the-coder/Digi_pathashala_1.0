@@ -40,7 +40,7 @@ const Profile = () => {
     joinedDate: "",
   });
 
-  console.log("User data:", liveClasses, user, currentUser);
+  // console.log("User data:", liveClasses, user, currentUser);
 
   // Initialize form data when component mounts or when user data changes
   useEffect(() => {

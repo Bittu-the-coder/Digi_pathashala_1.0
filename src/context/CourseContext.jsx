@@ -97,15 +97,15 @@ export const CourseProvider = ({ children }) => {
         };
       }
 
-      console.log("Attempting to enroll in course:", courseId);
-      console.log("Current user:", currentUser);
+      // console.log("Attempting to enroll in course:", courseId);
+      // console.log("Current user:", currentUser);
 
       const data = await courseService.enrollCourse(
         courseId,
         currentUser.token
       );
 
-      console.log("Enrollment response:", data);
+      // console.log("Enrollment response:", data);
 
       // Update the course in state to reflect enrollment
       setCourses((prev) =>
@@ -157,7 +157,7 @@ export const CourseProvider = ({ children }) => {
   // Get instructor courses
   const fetchInstructorCourses = async () => {
     if (!currentUser || !["admin", "teacher"].includes(currentUser.role)) {
-      console.log("User not authorized to fetch instructor courses");
+      // console.log("User not authorized to fetch instructor courses");
       setTeacherCourses([]);
       return;
     }
@@ -166,14 +166,14 @@ export const CourseProvider = ({ children }) => {
     setError(null);
 
     try {
-      console.log("Fetching instructor courses for user:", currentUser._id);
+      // console.log("Fetching instructor courses for user:", currentUser._id);
       const response = await courseService.getInstructorCourses(
         currentUser.token
       );
 
       if (response && response.data) {
         setTeacherCourses(response.data);
-        console.log("Fetched instructor courses:", response.data);
+        // console.log("Fetched instructor courses:", response.data);
       } else {
         setError(response?.message || "Failed to fetch instructor courses");
         setTeacherCourses([]);
@@ -219,9 +219,9 @@ export const CourseProvider = ({ children }) => {
     }
 
     try {
-      console.log("Fetching student courses with token:", currentUser.token);
+      // console.log("Fetching student courses with token:", currentUser.token);
       const response = await courseService.getStudentCourses(currentUser.token);
-      console.log("Student courses response:", response);
+      // console.log("Student courses response:", response);
       return { success: true, data: response.data || [] };
     } catch (error) {
       console.error("Error fetching student courses:", error);
