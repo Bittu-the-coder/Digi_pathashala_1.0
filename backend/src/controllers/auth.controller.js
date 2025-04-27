@@ -3,14 +3,6 @@ const User = require('../models/user.model');
 const { generateToken } = require('../utils/jwt');
 const emailjs = require('@emailjs/nodejs');
 
-
-const EMAILJS_CONFIG = {
-  serviceID: 'service_jsnjig9',
-  templateID: 'template_369ud9a',
-  publicKey: 'gekwUYhsguv5oitsC',
-  privateKey: 'gAM7ue3ylRepcBE0oh2oP',
-};
-
 // @desc    Register user
 // @route   POST /api/auth/register
 // @access  Public
@@ -263,8 +255,8 @@ exports.forgotPassword = async (req, res) => {
     try {
       // Send email with parameters matching the template variables
       const response = await emailjs.send(
-        EMAILJS_CONFIG.serviceID,
-        EMAILJS_CONFIG.templateID,
+        process.env.EMAILJS_SERVICE_ID,
+        process.env.EMAILJS_TEMPLATE_ID,
         {
           // Match the exact template variables from the HTML template
           passcode: verificationCode,
@@ -278,8 +270,8 @@ exports.forgotPassword = async (req, res) => {
           subject: "Password Reset Verification Code - Digi Pathashala"
         },
         {
-          publicKey: EMAILJS_CONFIG.publicKey,
-          privateKey: EMAILJS_CONFIG.privateKey
+          publicKey: process.env.EMAILJS_PUBLIC_KEY,
+          privateKey: process.env.EMAILJS_PRIVATE_KEY
         }
       );
 
