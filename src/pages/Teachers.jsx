@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Search, Star, MessageSquare } from "lucide-react";
+import { Link } from "react-router-dom"; // Add this import at the top
 import Navbar from "../components/common/Navbar";
 import Footer from "../components/common/Footer";
 
@@ -222,9 +223,12 @@ const Teachers = () => {
                       <button className="p-2 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 transition-colors">
                         <MessageSquare className="w-5 h-5" />
                       </button>
-                      <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+                      <Link
+                        to={`/teacher/${teacher.id}`}
+                        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors inline-block"
+                      >
                         View Profile
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -247,22 +251,21 @@ const Teachers = () => {
         </div>
       </section>
 
-      {/* Become a Teacher CTA */}
+      {/* Call to Action Section */}
       <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-600">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-white mb-4">
-              Share Your Knowledge with the World
+            <h2 className="text-3xl font-bold text-white mb-6">
+              Ready to Share Your Expertise?
             </h2>
             <p className="text-white text-opacity-90 mb-8 text-lg">
-              Join our community of expert teachers and help students achieve
-              their learning goals.
+              Join our community of educators and reach students globally.
             </p>
-            <a
-              href="/admin-signin"
+            <a // Changed to Link component
+              href="/admin-register" // Changed href to point to registration
               className="inline-block px-8 py-4 bg-white text-blue-600 hover:bg-blue-50 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
             >
-              Become a Teacher
+              Become a Teacher {/* Text remains appropriate */}
             </a>
           </div>
         </div>

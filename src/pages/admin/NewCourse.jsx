@@ -1,37 +1,114 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Save, X, Upload } from "lucide-react";
+import { Save, X, Upload, Calendar, Clock, Users } from "lucide-react";
 import toast from "react-hot-toast";
+import { useAuth } from "../../context/AuthContext";
+import { useCourses } from "../../context/CourseContext";
 
 const NewCourse = () => {
   const navigate = useNavigate();
+  const { createCourse } = useCourses();
+  const { currentUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const [course, setCourse] = useState({
     title: "",
     description: "",
     category: "",
-    price: "",
+    price: 0,
     duration: "",
-    level: "Beginner",
+    level: "beginner",
+    thumbnail: "",
+    status: "active",
+    schedule: {
+      days: [],
+      startTime: "",
+      endTime: "",
+    },
+    startDate: new Date().toISOString().split("T")[0],
+    endDate: "",
+    maxStudents: 50,
   });
 
+  const daysOfWeek = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setCourse({
       ...course,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleScheduleChange = (e) => {
+    const { name, value } = e.target;
+    setCourse({
+      ...course,
+      schedule: {
+        ...course.schedule,
+        [name]: value,
+      },
+    });
+  };
+
+  const handleDayToggle = (day) => {
+    setCourse({
+      ...course,
+      schedule: {
+        ...course.schedule,
+        days: course.schedule.days.includes(day)
+          ? course.schedule.days.filter((d) => d !== day)
+          : [...course.schedule.days, day],
+      },
+    });
+  };
+
+  const handleDateChange = (e) => {
+    const { name, value } = e.target;
+    setCourse({
+      ...course,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      toast.success("Course created successfully!");
+    try {
+      // Prepare data for API submission
+      const courseData = {
+        ...course,
+        // Ensure price is a number
+        price: Number(course.price),
+        maxStudents: Number(course.maxStudents),
+        // Convert duration to string as per model requirement
+        duration: String(course.duration) + " hours",
+      };
+
+      // Call the createCourse function with the course data
+      const result = await createCourse(courseData);
+
+      if (result.success) {
+        toast.success("Course created successfully!");
+        navigate("/admin/courses");
+      } else {
+        toast.error(result.error || "Failed to create course");
+      }
+    } catch (error) {
+      console.error("Create course error:", error);
+      toast.error(error.response?.data?.message || "Error creating course");
+    } finally {
       setLoading(false);
-      navigate("/admin/courses");
-    }, 1500);
+    }
   };
 
   const handleCancel = () => {
@@ -102,12 +179,12 @@ const NewCourse = () => {
                   className="block w-full px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="">Select a category</option>
-                  <option value="Web Development">Web Development</option>
-                  <option value="Mobile Development">Mobile Development</option>
-                  <option value="Data Science">Data Science</option>
-                  <option value="Machine Learning">Machine Learning</option>
-                  <option value="Database">Database</option>
+                  <option value="Mathematics">Mathematics</option>
+                  <option value="Physics">Physics</option>
                   <option value="Programming">Programming</option>
+                  <option value="Languages">Languages</option>
+                  <option value="Business">Business</option>
+                  <option value="Science">Science</option>
                 </select>
               </div>
 
@@ -138,19 +215,19 @@ const NewCourse = () => {
                   htmlFor="level"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
-                  Level
+                  Level *
                 </label>
                 <select
                   id="level"
                   name="level"
                   value={course.level}
                   onChange={handleChange}
+                  required
                   className="block w-full px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <option value="Beginner">Beginner</option>
-                  <option value="Intermediate">Intermediate</option>
-                  <option value="Advanced">Advanced</option>
-                  <option value="All Levels">All Levels</option>
+                  <option value="beginner">Beginner</option>
+                  <option value="intermediate">Intermediate</option>
+                  <option value="advanced">Advanced</option>
                 </select>
               </div>
 
@@ -175,30 +252,196 @@ const NewCourse = () => {
                 />
               </div>
 
-              {/* Course Image */}
+              {/* Max Students */}
+              <div>
+                <label
+                  htmlFor="maxStudents"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Maximum Students
+                </label>
+                <input
+                  type="number"
+                  id="maxStudents"
+                  name="maxStudents"
+                  value={course.maxStudents}
+                  onChange={handleChange}
+                  className="block w-full px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  min="1"
+                />
+              </div>
+
+              {/* Status */}
+              <div>
+                <label
+                  htmlFor="status"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Status *
+                </label>
+                <select
+                  id="status"
+                  name="status"
+                  value={course.status}
+                  onChange={handleChange}
+                  required
+                  className="block w-full px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                  <option value="upcoming">Upcoming</option>
+                </select>
+              </div>
+
+              {/* Course Thumbnail */}
+              <div>
+                <label
+                  htmlFor="thumbnail"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Course Thumbnail URL
+                </label>
+                <input
+                  type="url"
+                  id="thumbnail"
+                  name="thumbnail"
+                  value={course.thumbnail}
+                  onChange={handleChange}
+                  className="block w-full px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Enter image URL (https://example.com/image.jpg)"
+                />
+                {course.thumbnail && (
+                  <div className="mt-2">
+                    <p className="text-xs text-gray-500 mb-1">Preview:</p>
+                    <img
+                      src={course.thumbnail}
+                      alt="Thumbnail preview"
+                      className="h-24 w-auto object-cover rounded-md"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src =
+                          "https://via.placeholder.com/150?text=Invalid+URL";
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Schedule - Days */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Course Thumbnail
+                  Class Days *
                 </label>
-                <div className="flex items-center justify-center px-6 py-4 border-2 border-gray-300 border-dashed rounded-md hover:bg-gray-50 cursor-pointer">
-                  <div className="space-y-1 text-center">
-                    <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                    <div className="flex text-sm text-gray-600">
-                      <label className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                        <span>Upload a file</span>
-                        <input
-                          id="file-upload"
-                          name="file-upload"
-                          type="file"
-                          className="sr-only"
-                        />
-                      </label>
-                      <p className="pl-1">or drag and drop</p>
+                <div className="flex flex-wrap gap-2">
+                  {daysOfWeek.map((day) => (
+                    <button
+                      key={day}
+                      type="button"
+                      onClick={() => handleDayToggle(day)}
+                      className={`px-3 py-1 rounded-full text-sm ${
+                        course.schedule.days.includes(day)
+                          ? "bg-blue-100 text-blue-700"
+                          : "bg-gray-100 text-gray-700"
+                      }`}
+                    >
+                      {day.substring(0, 3)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Schedule - Time */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label
+                    htmlFor="startTime"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    Start Time *
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Clock className="h-5 w-5 text-gray-400" />
                     </div>
-                    <p className="text-xs text-gray-500">
-                      PNG, JPG, GIF up to 10MB
-                    </p>
+                    <input
+                      type="time"
+                      id="startTime"
+                      name="startTime"
+                      value={course.schedule.startTime}
+                      onChange={handleScheduleChange}
+                      required
+                      className="block w-full pl-10 px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    />
                   </div>
+                </div>
+                <div>
+                  <label
+                    htmlFor="endTime"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    End Time *
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Clock className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                      type="time"
+                      id="endTime"
+                      name="endTime"
+                      value={course.schedule.endTime}
+                      onChange={handleScheduleChange}
+                      required
+                      className="block w-full pl-10 px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Start Date */}
+              <div>
+                <label
+                  htmlFor="startDate"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Start Date *
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Calendar className="h-5 w-5 text-gray-400" />
+                  </div>
+                  <input
+                    type="date"
+                    id="startDate"
+                    name="startDate"
+                    value={course.startDate}
+                    onChange={handleDateChange}
+                    required
+                    className="block w-full pl-10 px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              </div>
+
+              {/* End Date */}
+              <div>
+                <label
+                  htmlFor="endDate"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  End Date (Optional)
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Calendar className="h-5 w-5 text-gray-400" />
+                  </div>
+                  <input
+                    type="date"
+                    id="endDate"
+                    name="endDate"
+                    value={course.endDate || ""}
+                    onChange={handleDateChange}
+                    className="block w-full pl-10 px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
                 </div>
               </div>
             </div>

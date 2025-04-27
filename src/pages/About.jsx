@@ -22,7 +22,7 @@ const About = () => {
             >
               About{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-                Digi Pathashala
+                Digi Pathshala
               </span>
             </motion.h1>
             <motion.p
@@ -53,11 +53,11 @@ const About = () => {
                 Our Story
               </h2>
               <p className="text-gray-600 mb-4">
-                Digi Pathashala was founded in 2020 with a mission to
-                democratize education and make quality learning accessible to
-                everyone, everywhere. What started as a small initiative with
-                just a handful of teachers has now grown into a vibrant
-                community of educators and learners.
+                Digi Pathshala was founded in 2020 with a mission to democratize
+                education and make quality learning accessible to everyone,
+                everywhere. What started as a small initiative with just a
+                handful of teachers has now grown into a vibrant community of
+                educators and learners.
               </p>
               <p className="text-gray-600 mb-4">
                 We believe that education is a fundamental right, and technology
@@ -80,7 +80,7 @@ const About = () => {
               className="md:w-1/2"
             >
               <img
-                src="https://source.unsplash.com/random/600x400/?education"
+                src="https://plus.unsplash.com/premium_photo-1682284353484-4e16001c58eb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGVkdWNhdGlvbnxlbnwwfHwwfHx8MA%3D%3D"
                 alt="Our Story"
                 className="rounded-xl shadow-lg w-full h-auto"
               />
@@ -167,26 +167,27 @@ const About = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {[
               {
-                name: "Rajiv Kumar",
+                name: "Bittu Prajapati",
                 role: "Founder & CEO",
-                image: "https://source.unsplash.com/random/300x300/?man",
-              },
-              {
-                name: "Priya Sharma",
-                role: "Chief Academic Officer",
-                image: "https://source.unsplash.com/random/300x300/?woman",
-              },
-              {
-                name: "Aditya Patel",
-                role: "Head of Technology",
-                image: "https://source.unsplash.com/random/300x300/?person",
-              },
-              {
-                name: "Neha Gupta",
-                role: "Director of Operations",
                 image:
-                  "https://source.unsplash.com/random/300x300/?professional",
+                  "https://media.licdn.com/dms/image/v2/D4D03AQEdArzMMonN4Q/profile-displayphoto-shrink_400_400/B4DZXwLhjJHwAk-/0/1743491309095?e=1751500800&v=beta&t=zhn0uS0G2_7XmeoMlXJN3ARSXf9X6TMnRsyFdHmA78o",
               },
+              {
+                name: "Devansh Kumar",
+                role: "Chief Academic Officer",
+                image: "https://source.unsplash.com/random/300x300/?Man",
+              },
+              // {
+              //   name: "Aditya Patel",
+              //   role: "Head of Technology",
+              //   image: "https://source.unsplash.com/random/300x300/?person",
+              // },
+              // {
+              //   name: "Neha Gupta",
+              //   role: "Director of Operations",
+              //   image:
+              //     "https://source.unsplash.com/random/300x300/?professional",
+              // },
             ].map((member, index) => (
               <motion.div
                 key={index}
@@ -229,7 +230,7 @@ const About = () => {
               Join Our Educational Community
             </h2>
             <p className="text-white text-opacity-90 mb-8 text-lg">
-              Whether you're looking to learn or teach, Digi Pathashala offers
+              Whether you're looking to learn or teach, Digi Pathshala offers
               the platform and tools you need to succeed.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -241,7 +242,7 @@ const About = () => {
               </Link>
               <Link to="/admin-signin">
                 <button className="bg-transparent border-2 border-white text-white hover:bg-white/10 px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 w-full sm:w-auto">
-                  Become a Teacher
+                  Sign In as Teacher {/* Updated Text */}
                 </button>
               </Link>
             </div>

@@ -9,23 +9,46 @@ import {
   Calendar,
   VideoIcon,
 } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
+import { useCourses } from "../../context/CourseContext";
+import { useEffect } from "react";
 
 const AdminDashboard = () => {
-  const { courses = [], users = [] } = useData();
+  const { users = [] } = useData();
+  const { TeacherCourses, fetchInstructorCourses } = useCourses();
+  const { currentUser } = useAuth();
 
-  // Calculate statistics - add default values and null checks
-  const totalStudents = Array.isArray(users)
-    ? users.filter((user) => user?.role === "student").length
-    : 0;
+  useEffect(() => {
+    if (currentUser && ["admin", "teacher"].includes(currentUser.role)) {
+      fetchInstructorCourses();
+    }
+  }, [currentUser]);
+
+  const courses = TeacherCourses;
+
+  // console.log("courses", courses);
+
+  let totalStudentsArray = [];
+  courses.forEach((course) => {
+    for (let i = 0; i < course.enrolledStudents.length; i++) {
+      const student = course.enrolledStudents[i];
+      totalStudentsArray.push(student._id);
+    }
+  });
+  // console.log("totalStudentsArray", totalStudentsArray);
+  let totalStudents = 0;
+  if (Array.isArray(totalStudentsArray)) {
+    const uniqueStudents = new Set(totalStudentsArray);
+    totalStudents = uniqueStudents.size;
+  }
+
   const totalCourses = Array.isArray(courses) ? courses.length : 0;
-  const totalEnrollments = Array.isArray(users)
-    ? users.reduce((total, user) => {
-        if (user?.role === "student" && Array.isArray(user?.enrolledCourses)) {
-          return total + user.enrolledCourses.length;
-        }
-        return total;
-      }, 0)
-    : 0;
+  let totalEnrollments = 0;
+  for (const course of courses) {
+    if (Array.isArray(course.enrolledStudents)) {
+      totalEnrollments += course.enrolledStudents.length;
+    }
+  }
 
   // Dummy attendance rate
   const averageAttendance = 88;
@@ -33,17 +56,15 @@ const AdminDashboard = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900">Teacher Dashboard</h1>
+        <h1 className="text-sm text-gray-500">
+          Last updated: {new Date().toLocaleDateString()}
+        </h1>
         <Link to="/admin/courses/new">
           <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:from-blue-700 hover:to-purple-700 transition-all">
             <PlusCircle size={18} />
             Create New Course
           </button>
         </Link>
-      </div>
-
-      <div className="text-sm text-gray-500">
-        Last updated: {new Date().toLocaleDateString()}
       </div>
 
       {/* Quick Actions */}
@@ -58,7 +79,7 @@ const AdminDashboard = () => {
           >
             <BookOpen size={24} className="text-blue-600 mb-2" />
             <span className="text-sm font-medium text-gray-800">
-              Host New Course
+              Create New Course
             </span>
           </Link>
 
@@ -78,7 +99,7 @@ const AdminDashboard = () => {
           >
             <VideoIcon size={24} className="text-purple-600 mb-2" />
             <span className="text-sm font-medium text-gray-800">
-              Start Live Class
+              Schedule Live Class
             </span>
           </Link>
 

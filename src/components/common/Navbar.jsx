@@ -37,7 +37,7 @@ const Navbar = () => {
     { name: "About", href: "/about" },
     { name: "Courses", href: "/courses" },
     { name: "Resources", href: "/resources" },
-    { name: "Teachers", href: "/teachers" },
+    // { name: "Teachers", href: "/teachers" },
     { name: "Contact", href: "/contact" },
   ];
 
@@ -52,7 +52,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <div className="font-bold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-              Digi Pathashala
+              Digi Pathshala
             </div>
           </Link>
 

@@ -1,11 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useData } from "../../context/DataContext";
+import { useAuth } from "../../context/AuthContext";
 import Sidebar from "../common/Sidebar";
 import { useState } from "react";
 import { ChevronDown, LogOut, User } from "lucide-react";
 
 const Layout = ({ children, role }) => {
-  const { user, logout } = useData();
+  const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -20,7 +20,7 @@ const Layout = ({ children, role }) => {
       <div className="w-64 bg-white shadow-md">
         <div className="p-6">
           <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-            DigiPathashala
+            DigiPathshala
           </h1>
         </div>
         <Sidebar />
@@ -31,9 +31,11 @@ const Layout = ({ children, role }) => {
         <header className="bg-white shadow-sm">
           <div className="px-6 py-4 flex justify-between items-center">
             <h2 className="text-xl font-semibold text-gray-800">
-              {user?.role === "admin" ? "Admin Portal" : "Student Portal"}
+              {currentUser?.role === "admin"
+                ? "Teacher Portal"
+                : "Student Portal"}
             </h2>
-            {user && (
+            {currentUser && (
               <div className="relative">
                 <button
                   onClick={() => setShowDropdown(!showDropdown)}
@@ -41,10 +43,10 @@ const Layout = ({ children, role }) => {
                 >
                   <div className="flex items-center">
                     <div className="mr-4 text-sm text-gray-600">
-                      Welcome, {user.name}
+                      Welcome, {currentUser.name}
                     </div>
                     <div className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white">
-                      {user.name.charAt(0).toUpperCase()}
+                      {currentUser.name.charAt(0).toUpperCase()}
                     </div>
                   </div>
                   <ChevronDown
@@ -57,7 +59,7 @@ const Layout = ({ children, role }) => {
                 {showDropdown && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-50 border border-gray-100">
                     <Link
-                      to={`/${user.role}/profile`}
+                      to={`/${currentUser.role}/profile`}
                       className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                       onClick={() => setShowDropdown(false)}
                     >

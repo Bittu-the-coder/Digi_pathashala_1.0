@@ -1,89 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Search, Filter, ChevronDown } from "lucide-react";
 import Navbar from "../components/common/Navbar";
 import Footer from "../components/common/Footer";
+import { Link } from "react-router-dom";
+import { useCourses } from "../context/CourseContext";
 
 const HomeCourses = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedLevel, setSelectedLevel] = useState("All Levels");
   const [showFilters, setShowFilters] = useState(false);
+  const { courses, fetchCourses } = useCourses();
 
-  // Sample course data
-  const courses = [
-    {
-      id: 1,
-      title: "Introduction to React",
-      instructor: "Dr. Smith",
-      category: "Programming",
-      level: "Beginner",
-      rating: 4.8,
-      students: 1245,
-      price: 49.99,
-      image: "/course-react.jpg",
-    },
-    {
-      id: 2,
-      title: "Advanced Mathematics",
-      instructor: "Prof. Johnson",
-      category: "Mathematics",
-      level: "Advanced",
-      rating: 4.9,
-      students: 872,
-      price: 59.99,
-      image: "/course-math.jpg",
-    },
-    {
-      id: 3,
-      title: "English Literature Classics",
-      instructor: "Dr. Williams",
-      category: "Languages",
-      level: "Intermediate",
-      rating: 4.7,
-      students: 1034,
-      price: 39.99,
-      image: "/course-english.jpg",
-    },
-    {
-      id: 4,
-      title: "Physics Fundamentals",
-      instructor: "Prof. Miller",
-      category: "Science",
-      level: "Beginner",
-      rating: 4.6,
-      students: 956,
-      price: 44.99,
-      image: "/course-physics.jpg",
-    },
-    {
-      id: 5,
-      title: "Digital Marketing Strategies",
-      instructor: "Sarah Johnson",
-      category: "Business",
-      level: "Intermediate",
-      rating: 4.9,
-      students: 1578,
-      price: 69.99,
-      image: "/course-marketing.jpg",
-    },
-    {
-      id: 6,
-      title: "Web Development Bootcamp",
-      instructor: "Michael Brown",
-      category: "Programming",
-      level: "Beginner",
-      rating: 4.8,
-      students: 2145,
-      price: 79.99,
-      image: "/course-webdev.jpg",
-    },
-  ];
+  useEffect(() => {
+    fetchCourses();
+  }, []);
+  // console.log(courses);
 
   // Filter courses based on selected category and level
   const filteredCourses = courses.filter(
     (course) =>
       (selectedCategory === "All" || course.category === selectedCategory) &&
-      (selectedLevel === "All Levels" || course.level === selectedLevel)
+      (selectedLevel === "All Levels" ||
+        course.level.toLowerCase() === selectedLevel.toLowerCase())
   );
 
   // Categories for filter
@@ -267,7 +206,7 @@ const HomeCourses = () => {
                   >
                     <div className="h-48 overflow-hidden">
                       <img
-                        src={course.image}
+                        src={course.thumbnail}
                         alt={course.title}
                         className="w-full h-full object-cover"
                         onError={(e) => {
@@ -281,14 +220,19 @@ const HomeCourses = () => {
                           {course.category}
                         </span>
                         <span className="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs rounded-full">
-                          {course.level}
+                          {course.level.charAt(0).toUpperCase() +
+                            course.level.slice(1)}
                         </span>
                       </div>
-                      <h3 className="text-lg font-bold text-gray-900 mt-3 mb-2">
+                      <h3 className="text-lg truncate font-bold text-gray-900 mt-3 mb-2">
                         {course.title}
                       </h3>
                       <p className="text-sm text-gray-600 mb-3">
-                        by {course.instructor}
+                        by{" "}
+                        {course.instructor &&
+                        typeof course.instructor === "object"
+                          ? course.instructor.name || "Instructor"
+                          : course.instructor || "Instructor"}
                       </p>
                       <div className="flex items-center mb-4">
                         <div className="flex text-yellow-400">
@@ -312,17 +256,18 @@ const HomeCourses = () => {
                           ))}
                         </div>
                         <span className="ml-2 text-sm text-gray-600">
-                          {course.rating} ({course.students.toLocaleString()}{" "}
-                          students)
+                          4.5 (2.0k+)
                         </span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-lg font-bold text-gray-900">
                           ${course.price}
                         </span>
-                        <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
-                          Enroll
-                        </button>
+                        <Link to="/student-signin">
+                          <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+                            Enroll
+                          </button>
+                        </Link>
                       </div>
                     </div>
                   </motion.div>
