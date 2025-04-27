@@ -9,23 +9,46 @@ import {
   Calendar,
   VideoIcon,
 } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
+import { useCourses } from "../../context/CourseContext";
+import { useEffect } from "react";
 
 const AdminDashboard = () => {
-  const { courses = [], users = [] } = useData();
+  const { users = [] } = useData();
+  const { TeacherCourses, fetchInstructorCourses } = useCourses();
+  const { currentUser } = useAuth();
 
-  // Calculate statistics - add default values and null checks
-  const totalStudents = Array.isArray(users)
-    ? users.filter((user) => user?.role === "student").length
-    : 0;
+  useEffect(() => {
+    if (currentUser && ["admin", "teacher"].includes(currentUser.role)) {
+      fetchInstructorCourses();
+    }
+  }, [currentUser]);
+
+  const courses = TeacherCourses;
+
+  console.log("courses", courses);
+
+  let totalStudentsArray = [];
+  courses.forEach((course) => {
+    for (let i = 0; i < course.enrolledStudents.length; i++) {
+      const student = course.enrolledStudents[i];
+      totalStudentsArray.push(student._id);
+    }
+  });
+  console.log("totalStudentsArray", totalStudentsArray);
+  let totalStudents = 0;
+  if (Array.isArray(totalStudentsArray)) {
+    const uniqueStudents = new Set(totalStudentsArray);
+    totalStudents = uniqueStudents.size;
+  }
+
   const totalCourses = Array.isArray(courses) ? courses.length : 0;
-  const totalEnrollments = Array.isArray(users)
-    ? users.reduce((total, user) => {
-        if (user?.role === "student" && Array.isArray(user?.enrolledCourses)) {
-          return total + user.enrolledCourses.length;
-        }
-        return total;
-      }, 0)
-    : 0;
+  let totalEnrollments = 0;
+  for (const course of courses) {
+    if (Array.isArray(course.enrolledStudents)) {
+      totalEnrollments += course.enrolledStudents.length;
+    }
+  }
 
   // Dummy attendance rate
   const averageAttendance = 88;

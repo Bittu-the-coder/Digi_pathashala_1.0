@@ -10,6 +10,8 @@ const Users = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [studentToDelete, setStudentToDelete] = useState(null);
   const { currentUser } = useAuth();
   const { TeacherCourses, fetchInstructorCourses } = useCourses();
   const [studentsWithEnrollments, setStudentsWithEnrollments] = useState([]);
@@ -63,25 +65,29 @@ const Users = () => {
 
   // Handle student deletion
   const handleDeleteStudent = async (studentId) => {
-    if (!window.confirm("Are you sure you want to remove this student?"))
-      return;
+    setStudentToDelete(studentId);
+    setShowDeleteModal(true);
+  };
 
+  const confirmDelete = async () => {
     try {
-      await API.delete(`/users/${studentId}`, {
+      await API.delete(`/users/${studentToDelete}`, {
         headers: {
           Authorization: `Bearer ${currentUser.token}`,
         },
       });
 
-      // Update the local state to remove the deleted student
       setStudentsWithEnrollments((prev) =>
-        prev.filter((student) => student._id !== studentId)
+        prev.filter((student) => student._id !== studentToDelete)
       );
 
       toast.success("Student removed successfully");
     } catch (error) {
       console.error("Error deleting student:", error);
       toast.error(error.response?.data?.message || "Failed to remove student");
+    } finally {
+      setShowDeleteModal(false);
+      setStudentToDelete(null);
     }
   };
 
@@ -144,6 +150,36 @@ const Users = () => {
             onDelete={handleDeleteStudent}
           />
         </div>
+
+        {/* Delete Confirmation Modal */}
+        {showDeleteModal && (
+          <div className="fixed inset-0 backdrop-blur-[5px] flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full mx-4">
+              <h2 className="text-xl font-bold mb-4">Confirm Deletion</h2>
+              <p className="text-gray-600 mb-6">
+                Are you sure you want to remove this student? This action cannot
+                be undone.
+              </p>
+              <div className="flex justify-end gap-4">
+                <button
+                  className="px-4 py-2 text-gray-600 rounded hover:bg-gray-100"
+                  onClick={() => {
+                    setShowDeleteModal(false);
+                    setStudentToDelete(null);
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                  onClick={confirmDelete}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );

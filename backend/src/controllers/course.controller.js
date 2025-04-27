@@ -255,6 +255,9 @@ exports.unenrollCourse = async (req, res) => {
     );
     await user.save();
 
+    // Delete attendance records related to the student and course
+    await Attendance.deleteMany({ course: course._id, student: req.user._id });
+
     res.status(200).json({
       success: true,
       data: {},
@@ -268,6 +271,7 @@ exports.unenrollCourse = async (req, res) => {
     });
   }
 };
+
 
 // @desc    Delete course
 // @route   DELETE /api/courses/:id

@@ -43,8 +43,8 @@ exports.markAttendance = async (req, res) => {
     await Attendance.deleteMany({
       course: courseId,
       date: {
-        $gte: new Date(attendanceDate.setHours(0, 0, 0)),
-        $lt: new Date(attendanceDate.setHours(23, 59, 59))
+        $gte: new Date(attendanceDate.setHours(0, 0, 0, 0)),
+        $lt: new Date(attendanceDate.setHours(23, 59, 59, 999))
       }
     });
 
@@ -52,21 +52,25 @@ exports.markAttendance = async (req, res) => {
     for (const record of attendanceData) {
       const { studentId, status, remarks } = record;
 
-      // Validate student exists
-      const student = await User.findById(studentId);
+      // Validate student exists and is enrolled in the course
+      const student = await User.findOne({
+        _id: studentId,
+        enrolledCourses: courseId
+      });
+
       if (!student) {
-        continue; // Skip if student not found
+        continue; // Skip if student not found or not enrolled
       }
 
       // Create attendance record
-      const attendanceRecord = {
+      const attendanceRecord = new Attendance({
         course: courseId,
         student: studentId,
         date: new Date(date),
         status: status || 'present',
         markedBy: req.user._id,
         remarks: remarks || ''
-      };
+      });
 
       attendanceRecords.push(attendanceRecord);
     }
@@ -79,6 +83,7 @@ exports.markAttendance = async (req, res) => {
     res.status(201).json({
       success: true,
       message: 'Attendance marked successfully',
+      data: attendanceRecords,
       count: attendanceRecords.length
     });
   } catch (error) {
@@ -123,14 +128,14 @@ exports.getCourseAttendance = async (req, res) => {
     if (date) {
       const attendanceDate = new Date(date);
       query.date = {
-        $gte: new Date(attendanceDate.setHours(0, 0, 0)),
-        $lt: new Date(attendanceDate.setHours(23, 59, 59))
+        $gte: new Date(attendanceDate.setHours(0, 0, 0, 0)),
+        $lt: new Date(attendanceDate.setHours(23, 59, 59, 999))
       };
     }
 
     // Get attendance records
     const attendance = await Attendance.find(query)
-      .populate('student', 'name email')
+      .populate('student', 'name email avatar')
       .populate('markedBy', 'name')
       .sort({ date: -1 });
 
@@ -154,7 +159,7 @@ exports.getCourseAttendance = async (req, res) => {
 // @access  Private/Student
 exports.getStudentAttendance = async (req, res) => {
   try {
-    const { courseId } = req.query;
+    const { courseId, startDate, endDate } = req.query;
     const studentId = req.user._id;
 
     // Build query
@@ -165,9 +170,18 @@ exports.getStudentAttendance = async (req, res) => {
       query.course = courseId;
     }
 
+    // Add date range filter if provided
+    if (startDate && endDate) {
+      query.date = {
+        $gte: new Date(startDate),
+        $lte: new Date(endDate)
+      };
+    }
+
     // Get attendance records
     const attendance = await Attendance.find(query)
-      .populate('course', 'title')
+      .populate('course', 'title code')
+      .populate('markedBy', 'name')
       .sort({ date: -1 });
 
     // Calculate attendance stats
@@ -205,9 +219,10 @@ exports.getStudentAttendance = async (req, res) => {
 exports.getCourseAttendanceStats = async (req, res) => {
   try {
     const { courseId } = req.params;
+    const { startDate, endDate } = req.query;
 
     // Check if course exists
-    const course = await Course.findById(courseId);
+    const course = await Course.findById(courseId).populate('enrolledStudents', 'name email');
     if (!course) {
       return res.status(404).json({
         success: false,
@@ -223,8 +238,19 @@ exports.getCourseAttendanceStats = async (req, res) => {
       });
     }
 
+    // Build query
+    const query = { course: courseId };
+
+    // Add date range filter if provided
+    if (startDate && endDate) {
+      query.date = {
+        $gte: new Date(startDate),
+        $lte: new Date(endDate)
+      };
+    }
+
     // Get all attendance records for the course
-    const attendanceRecords = await Attendance.find({ course: courseId });
+    const attendanceRecords = await Attendance.find(query);
 
     // Group records by student
     const studentMap = {};
@@ -245,21 +271,27 @@ exports.getCourseAttendanceStats = async (req, res) => {
     });
 
     // Calculate attendance percentage for each student
-    const stats = await Promise.all(Object.keys(studentMap).map(async (studentId) => {
-      const student = await User.findById(studentId).select('name email');
-      const stat = studentMap[studentId];
+    const stats = course.enrolledStudents.map((student) => {
+      const stat = studentMap[student._id] || {
+        total: 0,
+        present: 0,
+        absent: 0,
+        late: 0,
+        excused: 0,
+      };
+
       return {
         student: {
-          id: studentId,
-          name: student ? student.name : 'Unknown',
-          email: student ? student.email : 'Unknown',
+          id: student._id,
+          name: student.name,
+          email: student.email,
         },
         stats: {
           ...stat,
           percentage: stat.total > 0 ? Math.round((stat.present / stat.total) * 100) : 0,
         },
       };
-    }));
+    });
 
     res.status(200).json({
       success: true,

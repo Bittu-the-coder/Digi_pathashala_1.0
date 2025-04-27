@@ -48,18 +48,23 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  // Fetch all teachers (admin only)
+  // Fetch all teachers (available to all authenticated users)
   const fetchTeachers = async () => {
-    if (!currentUser || currentUser.role !== "admin") return;
+    if (!currentUser) {
+      console.log("No current user, cannot fetch teachers");
+      return;
+    }
 
     setLoading(true);
     try {
+      console.log("Making API call to fetch teachers...");
       const data = await userService.getTeachers(currentUser.token);
+      console.log("Teachers API response:", data);
       setTeachers(data.data || []);
       setError(null);
     } catch (err) {
-      setError(err.message || "Failed to fetch teachers");
       console.error("Error fetching teachers:", err);
+      setError(err.message || "Failed to fetch teachers");
     } finally {
       setLoading(false);
     }

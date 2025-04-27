@@ -52,7 +52,7 @@ const Sidebar = () => {
       text: "Analytics",
       icon: <BarChart2 size={20} />,
     },
-    { to: "/admin/settings", text: "Settings", icon: <Settings size={20} /> },
+    // { to: "/admin/settings", text: "Settings", icon: <Settings size={20} /> },
   ];
 
   const studentLinks = [
@@ -71,11 +71,11 @@ const Sidebar = () => {
       text: "Explore Courses",
       icon: <Book size={20} />, // Using Book icon for Explore Courses
     },
-    {
-      to: "/student/explore-teachers", // New route
-      text: "Explore Teachers",
-      icon: <Users size={20} />,
-    },
+    // {
+    //   to: "/student/explore-teachers", // New route
+    //   text: "Explore Teachers",
+    //   icon: <Users size={20} />,
+    // },
     {
       to: "/student/attendance",
       text: "Attendance",

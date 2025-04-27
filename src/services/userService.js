@@ -24,7 +24,7 @@ export const getStudents = async (token) => {
   return response.data;
 };
 
-// Get all teachers (admin only)
+// Get all teachers (available to all authenticated users)
 export const getTeachers = async (token) => {
   const config = {
     headers: {

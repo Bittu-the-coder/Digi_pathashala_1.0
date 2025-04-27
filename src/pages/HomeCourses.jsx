@@ -224,7 +224,7 @@ const HomeCourses = () => {
                             course.level.slice(1)}
                         </span>
                       </div>
-                      <h3 className="text-lg font-bold text-gray-900 mt-3 mb-2">
+                      <h3 className="text-lg truncate font-bold text-gray-900 mt-3 mb-2">
                         {course.title}
                       </h3>
                       <p className="text-sm text-gray-600 mb-3">
@@ -256,7 +256,7 @@ const HomeCourses = () => {
                           ))}
                         </div>
                         <span className="ml-2 text-sm text-gray-600">
-                          4.5 (123 students)
+                          4.5 (2.0k+)
                         </span>
                       </div>
                       <div className="flex items-center justify-between">

@@ -197,7 +197,7 @@ const ExploreCourses = () => {
                         : "All Levels"}
                     </span>
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 mt-3 mb-2">
+                  <h3 className="text-lg font-bold text-gray-900 mt-3 mb-2 truncate">
                     {course.title}
                   </h3>
                   <p className="text-sm text-gray-600 mb-3">
@@ -207,7 +207,7 @@ const ExploreCourses = () => {
                       : course.instructor}
                   </p>
                   <div className="mb-4">
-                    <p className="text-sm text-gray-500 line-clamp-2">
+                    <p className="text-sm text-gray-500 line-clamp-2     truncate">
                       {course.description}
                     </p>
                   </div>

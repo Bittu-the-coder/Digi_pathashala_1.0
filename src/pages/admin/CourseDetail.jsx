@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useCourses } from "../../context/CourseContext";
 import { useAuth } from "../../context/AuthContext";
 
@@ -115,6 +115,29 @@ const CourseDetails = () => {
               {course.price === 0 ? "Free" : `$${course.price}`}
             </p>
           </div>
+
+          <Link
+            to={`/admin/courses/${course._id}/attendance`}
+            className="block"
+          >
+            <button className="mt-6 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
+              <svg
+                className="w-5 h-5 inline-block mr-2"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              View Attendance
+            </button>
+          </Link>
         </div>
       </div>
     </div>

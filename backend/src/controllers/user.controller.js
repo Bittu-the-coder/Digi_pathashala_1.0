@@ -45,9 +45,9 @@ exports.getStudents = async (req, res) => {
   }
 };
 
-// @desc    Get all teachers (for admins)
+// @desc    Get all teachers (for all authenticated users)
 // @route   GET /api/users/teachers
-// @access  Private/Admin
+// @access  Private
 exports.getTeachers = async (req, res) => {
   try {
     const teachers = await User.find({ role: 'teacher' }).select('-password');

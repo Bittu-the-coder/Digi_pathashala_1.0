@@ -21,7 +21,7 @@ router.delete('/:id', protect, authorize('admin'), deleteUser);
 // Protected routes for all users
 router.get('/profile', protect, getUser);
 router.put('/profile', protect, updateProfile);
-router.get('/teachers', protect, getTeachers);
+router.get('/teachers', protect, getTeachers);  // Remove admin restriction
 
 // Admin route for updating any user
 router.put('/:id', protect, authorize('admin'), updateUser);

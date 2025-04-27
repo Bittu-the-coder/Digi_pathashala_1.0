@@ -5,6 +5,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { Toaster } from "react-hot-toast";
 import { CourseProvider } from "./context/CourseContext";
 import { UserProvider } from "./context/UserContext";
+import { AttendanceProvider } from "./context/AttendanceContext";
 
 function App() {
   return (
@@ -12,12 +13,14 @@ function App() {
       <CourseProvider>
         <DataProvider>
           <UserProvider>
-            <Router>
-              <div className="min-h-screen bg-gray-50">
-                <AppRoutes />
-                <Toaster position="top-right" />
-              </div>
-            </Router>
+            <AttendanceProvider>
+              <Router>
+                <div className="min-h-screen bg-gray-50">
+                  <AppRoutes />
+                  <Toaster position="top-right" />
+                </div>
+              </Router>
+            </AttendanceProvider>
           </UserProvider>
         </DataProvider>
       </CourseProvider>
