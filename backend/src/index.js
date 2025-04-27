@@ -22,6 +22,7 @@ app.use('/api/users', require('./routes/user.routes'));
 app.use('/api/courses', require('./routes/course.routes'));
 app.use('/api/attendance', require('./routes/attendance.routes'));
 app.use('/api/live-classes', require('./routes/liveClass.routes'));
+app.use('/api/contact', require('./routes/contact.routes'));
 
 // Default route
 app.get('/', (req, res) => {

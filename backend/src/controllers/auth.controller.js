@@ -1,6 +1,15 @@
 /* eslint-disable no-undef */
 const User = require('../models/user.model');
 const { generateToken } = require('../utils/jwt');
+const emailjs = require('@emailjs/nodejs');
+
+
+const EMAILJS_CONFIG = {
+  serviceID: 'service_jsnjig9',
+  templateID: 'template_369ud9a',
+  publicKey: 'gekwUYhsguv5oitsC',
+  privateKey: 'gAM7ue3ylRepcBE0oh2oP',
+};
 
 // @desc    Register user
 // @route   POST /api/auth/register
@@ -214,6 +223,163 @@ exports.registerBulkStudents = async (req, res) => {
       success: false,
       message: 'Error during bulk registration',
       error: error.message
+    });
+  }
+};
+
+// @desc    Forgot Password - Send verification code
+// @route   POST /api/auth/forgot-password
+// @access  Public
+exports.forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    // Find user by email
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'No user found with that email address',
+      });
+    }
+
+    // Generate 6-digit verification code
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // Set reset token and expiration (1 hour)
+    user.resetPasswordToken = verificationCode;
+    user.resetPasswordExpire = Date.now() + 3600000;
+    await user.save();
+
+    // Calculate expiration time for display in email
+    const expirationDate = new Date(Date.now() + 3600000);
+    const formattedExpirationTime = expirationDate.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+
+    // Send email
+    try {
+      // Send email with parameters matching the template variables
+      const response = await emailjs.send(
+        EMAILJS_CONFIG.serviceID,
+        EMAILJS_CONFIG.templateID,
+        {
+          // Match the exact template variables from the HTML template
+          passcode: verificationCode,
+          time: formattedExpirationTime,
+          website_url: 'https://digipathashala.com',
+          support_url: 'https://digipathashala.com/support',
+          to_email: email,
+          email: email,
+          recipient: email,
+          user_name: user.name || email.split('@')[0],
+          subject: "Password Reset Verification Code - Digi Pathashala"
+        },
+        {
+          publicKey: EMAILJS_CONFIG.publicKey,
+          privateKey: EMAILJS_CONFIG.privateKey
+        }
+      );
+
+      console.log('Email sent successfully:', response);
+      res.status(200).json({
+        success: true,
+        message: 'Verification code sent to your email address',
+      });
+    } catch (emailError) {
+      console.error('Email sending failed:', emailError);
+      res.status(200).json({
+        success: true,
+        message: 'If your email is registered, you will receive a verification code',
+      });
+    }
+  } catch (error) {
+    console.error('Forgot password error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error processing your request',
+      error: error.message,
+    });
+  }
+};
+
+// @desc    Verify Password Reset Code
+// @route   POST /api/auth/verify-reset-code
+// @access  Public
+exports.verifyResetCode = async (req, res) => {
+  try {
+    const { email, verificationCode } = req.body;
+
+    // Find user by email and verification code
+    const user = await User.findOne({
+      email,
+      resetPasswordToken: verificationCode,
+      resetPasswordExpire: { $gt: Date.now() }
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or expired verification code',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Verification code is valid',
+    });
+  } catch (error) {
+    console.error('Verify reset code error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error verifying code',
+      error: error.message,
+    });
+  }
+};
+
+// @desc    Reset Password with verification code
+// @route   POST /api/auth/reset-password
+// @access  Public
+exports.resetPassword = async (req, res) => {
+  try {
+    const { email, verificationCode, password } = req.body;
+
+    // Find user by email and verification code
+    const user = await User.findOne({
+      email,
+      resetPasswordToken: verificationCode,
+      resetPasswordExpire: { $gt: Date.now() }
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or expired verification code',
+      });
+    }
+
+    // Set new password
+    user.password = password;
+
+    // Clear reset token fields
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Password has been reset successfully',
+    });
+  } catch (error) {
+    console.error('Reset password error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error resetting password',
+      error: error.message,
     });
   }
 };
