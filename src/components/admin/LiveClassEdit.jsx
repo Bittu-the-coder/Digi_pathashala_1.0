@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
-import toast from "react-hot-toast";
 import { useClass } from "../../context/ClassContext";
-import { useNavigate } from "react-router-dom";
-import { useCourses } from "../../context/CourseContext";
-import { useAuth } from "../../context/AuthContext";
+import { useParams, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import classService from "../../services/classService";
 
-const LiveClassCreate = () => {
-  const { createLiveClass } = useClass();
-  const { TeacherCourses, fetchInstructorCourses } = useCourses();
-  const { currentUser } = useAuth();
+const LiveClassEdit = () => {
+  const { updateLiveClass } = useClass();
+  const { id } = useParams();
   const navigate = useNavigate();
-
   const [formClass, setFormClass] = useState({
     title: "",
     course: "",
@@ -19,57 +16,61 @@ const LiveClassCreate = () => {
     time: "",
     duration: "",
     meetingLink: "",
-    instructor: currentUser?.name || "",
-    instructorId: currentUser?._id || "",
+    instructor: "",
   });
+  const [loading, setLoading] = useState(true);
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // Fetch instructor courses on component mount
   useEffect(() => {
-    if (currentUser && ["admin", "teacher"].includes(currentUser.role)) {
-      fetchInstructorCourses();
-    }
-  }, [currentUser]);
+    const fetchLiveClass = async () => {
+      try {
+        const liveClass = await classService.getLiveClassById(id);
+        const date = new Date(liveClass.date);
+        setFormClass({
+          title: liveClass.title,
+          course: liveClass.course,
+          subject: liveClass.subject,
+          date: date.toISOString().split("T")[0],
+          time: date.toTimeString().slice(0, 5),
+          duration: liveClass.duration,
+          meetingLink: liveClass.meetingLink,
+          instructor: liveClass.instructor,
+        });
+        setLoading(false);
+      } catch (error) {
+        toast.error("Error fetching live class");
+        setLoading(false);
+      }
+    };
+    fetchLiveClass();
+  }, [id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
     try {
-      const result = await createLiveClass(formClass);
+      const result = await updateLiveClass(id, formClass);
       if (result.success) {
-        toast.success("Live class scheduled successfully!");
-        setFormClass({
-          title: "",
-          course: "",
-          subject: "",
-          date: "",
-          time: "",
-          duration: "",
-          meetingLink: "",
-          instructor: currentUser?.name || "",
-          instructorId: currentUser?._id || "",
-        });
+        toast.success("Live class updated successfully!");
         navigate("/admin/live-classes");
       } else {
-        toast.error(result.error || "Failed to create live class");
+        toast.error(result.error || "Failed to update live class");
       }
     } catch (error) {
       toast.error(error.message || "An unexpected error occurred");
-    } finally {
-      setIsSubmitting(false);
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900">Create Live Class</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Edit Live Class</h1>
       </div>
       <div className="bg-white shadow rounded-lg p-6">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {/* Title field */}
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Class Title
@@ -85,8 +86,6 @@ const LiveClassCreate = () => {
                 required
               />
             </div>
-
-            {/* Course dropdown - Only shows courses taught by this instructor */}
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Select Course
@@ -101,14 +100,11 @@ const LiveClassCreate = () => {
                 required
               >
                 <option value="">Select a course</option>
-                {TeacherCourses.map((course) => (
-                  <option key={course._id} value={course.title}>
-                    {course.title}
-                  </option>
-                ))}
+                <option value="Mathematics">Mathematics</option>
+                <option value="Physics">Physics</option>
+                <option value="Chemistry">Chemistry</option>
               </select>
             </div>
-
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Subject
@@ -162,12 +158,9 @@ const LiveClassCreate = () => {
                 type="number"
                 name="duration"
                 value={formClass.duration}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  if (value > 0) {
-                    setFormClass({ ...formClass, duration: value });
-                  }
-                }}
+                onChange={(e) =>
+                  setFormClass({ ...formClass, duration: e.target.value })
+                }
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
                 required
               />
@@ -200,17 +193,22 @@ const LiveClassCreate = () => {
                 }
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
                 required
-                disabled
               />
             </div>
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-end space-x-2">
+            <button
+              type="button"
+              onClick={() => navigate("/admin/live-classes")}
+              className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300"
+            >
+              Cancel
+            </button>
             <button
               type="submit"
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
-              disabled={isSubmitting}
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
             >
-              {isSubmitting ? "Scheduling..." : "Schedule Live Class"}
+              Update Live Class
             </button>
           </div>
         </form>
@@ -219,4 +217,4 @@ const LiveClassCreate = () => {
   );
 };
 
-export default LiveClassCreate;
+export default LiveClassEdit;

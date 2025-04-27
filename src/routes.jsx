@@ -12,7 +12,8 @@ import { default as StudentCourseDetail } from "./pages/student/CourseDetail";
 import { default as AdminCourseDetail } from "./pages/admin/CourseDetail";
 import StudentAttendance from "./pages/student/StudentAttendance";
 import StudentProgress from "./pages/student/StudentProgress";
-import LiveClasses from "./pages/student/LiveClasses";
+import { default as AdminLiveClasses } from "./pages/admin/LiveClasses";
+import { default as StudentLiveClasses } from "./pages/student/LiveClasses";
 import Courses from "./pages/admin/Courses";
 import Users from "./pages/admin/Users";
 import Attendance from "./pages/admin/Attendance";
@@ -26,6 +27,7 @@ import Resources from "./pages/Resources";
 import CourseAttendance from "./pages/admin/CourseAttendance";
 import StudentCourseAttendance from "./pages/student/StudentCourseAttendance";
 import LiveClassCreate from "./pages/admin/LiveClassCreate";
+import LiveClassEdit from "./components/admin/LiveClassEdit";
 import Analytics from "./pages/admin/Analytics";
 import Performance from "./pages/admin/Performance";
 import Settings from "./pages/admin/Settings";
@@ -34,7 +36,6 @@ import { default as AdminProfile } from "./pages/admin/Profile";
 import { default as StudentProfile } from "./pages/student/Profile";
 import ExploreCourses from "./pages/student/ExploreCourses";
 import ExploreTeachers from "./pages/student/ExploreTeachers";
-import CourseCreation from "./trash/CourseCreation";
 import CourseEdit from "./pages/admin/CourseEdit";
 
 const AppRoutes = () => {
@@ -94,8 +95,9 @@ const AppRoutes = () => {
         <Route path="users" element={<Users />} />
         <Route path="attendance" element={<Attendance />} />
         <Route path="attendance/mark" element={<Attendance />} />
-        <Route path="live-classes" element={<LiveClasses />} />
+        <Route path="live-classes" element={<AdminLiveClasses />} />
         <Route path="live-class/create" element={<LiveClassCreate />} />
+        <Route path="live-class/edit/:id" element={<LiveClassEdit />} />
         <Route path="analytics" element={<Analytics />} />
         <Route path="analytics/performance" element={<Performance />} />
         <Route path="settings" element={<Settings />} />
@@ -119,7 +121,7 @@ const AppRoutes = () => {
         />
         <Route path="attendance" element={<StudentAttendance />} />
         <Route path="progress" element={<StudentProgress />} />
-        <Route path="live-classes" element={<LiveClasses />} />
+        <Route path="live-classes" element={<StudentLiveClasses />} />
         <Route path="profile" element={<StudentProfile />} />
         <Route path="settings" element={<Settings />} />
       </Route>

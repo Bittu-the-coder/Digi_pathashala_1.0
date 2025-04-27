@@ -88,6 +88,9 @@ const Analytics = () => {
 
   return (
     <div className="space-y-6">
+      <h2 className="text-2xl font-bold text-gray-600 text-center">
+        Under Construction
+      </h2>
       <h1 className="text-2xl font-bold text-gray-900">Analytics Dashboard</h1>
 
       {/* Stats Grid */}

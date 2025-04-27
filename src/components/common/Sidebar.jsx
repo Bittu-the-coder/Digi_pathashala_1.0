@@ -81,12 +81,12 @@ const Sidebar = () => {
       text: "Attendance",
       icon: <Calendar size={20} />,
     },
-    { to: "/student/progress", text: "Progress", icon: <Award size={20} /> },
     {
       to: "/student/live-classes",
       text: "Live Classes",
       icon: <Video size={20} />,
     },
+    { to: "/student/progress", text: "Progress", icon: <Award size={20} /> },
   ];
 
   const links = isAdmin ? adminLinks : studentLinks;

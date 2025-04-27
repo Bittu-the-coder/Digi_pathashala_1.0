@@ -1,12 +1,18 @@
 const LiveClassCard = ({ classItem }) => {
-  const isUpcoming = true; // You would determine this based on the current time
+  const isUpcoming = new Date(classItem.date) > new Date();
 
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <div className="p-6">
         <div className="flex justify-between items-start mb-2">
           <h2 className="text-lg font-bold text-gray-800">{classItem.title}</h2>
-          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+          <span
+            className={`text-xs ${
+              isUpcoming
+                ? "bg-blue-100 text-blue-800"
+                : "bg-gray-100 text-gray-800"
+            } px-2 py-1 rounded-full`}
+          >
             {isUpcoming ? "Upcoming" : "Completed"}
           </span>
         </div>
@@ -44,7 +50,7 @@ const LiveClassCard = ({ classItem }) => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z"
               />
             </svg>
             {classItem.participants} participants
