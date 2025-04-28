@@ -13,7 +13,12 @@ import {
   Search,
 } from "lucide-react";
 import { motion } from "framer-motion";
+<<<<<<< main
 import image from "../assets/diamond-png.png";
+=======
+import image from "../assets/diamond.png";
+import logo from "../assets/logo.jpg";
+>>>>>>> local
 
 // Animation variants
 const rotatingAnimation = {
@@ -87,6 +92,11 @@ const Navbar = () => {
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
+            <img
+              src={logo}
+              alt="Logo"
+              className="h-10 w-10 object-cover rounded-full"
+            />
             <div className="font-bold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
               Digi Pathashala
             </div>
