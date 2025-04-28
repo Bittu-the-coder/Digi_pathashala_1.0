@@ -13,16 +13,8 @@ import {
   Search,
 } from "lucide-react";
 import { motion } from "framer-motion";
-<<<<<<< HEAD
-<<<<<<< main
-import image from "../assets/diamond-png.png";
-=======
 import image from "../assets/diamond.png";
 import logo from "../assets/logo.jpg";
->>>>>>> local
-=======
-import image from "../assets/diamond.png";
->>>>>>> 128e3c1570bb10a1bff9c3382eb770b3c15dc457
 
 // Animation variants
 const rotatingAnimation = {
