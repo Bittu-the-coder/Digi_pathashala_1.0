@@ -1,41 +1,50 @@
 # Digi Pathshala - Digital Learning Platform
 
-![Digi Pathshala](screenshot-url-here)
+![Digi Pathshala](https://i.imgur.com/placeholder-image.png)
 
 ## Overview
 
-Digi Pathshala is a comprehensive digital learning platform that connects students with expert teachers. The platform facilitates online education through live classes, course management, and interactive learning tools.
+Digi Pathshala is a comprehensive digital learning platform that connects students with expert teachers. The platform facilitates online education through live classes, course management, and interactive learning tools, making quality education accessible to everyone.
 
 ## Features
 
 ### For Students
 
-- Course enrollment and management
-- Live class participation
-- Progress tracking and attendance monitoring
-- Access to learning resources and materials
-- Performance analytics
-- Personal profile management
+- **Course Management**: Browse, enroll, and manage courses
+- **Live Classes**: Join and participate in live online classes
+- **Attendance Tracking**: Monitor personal attendance records across courses
+- **Progress Monitoring**: Track learning progress with detailed analytics
+- **Teacher Exploration**: Find and connect with expert teachers
+- **Resource Access**: Download educational resources and study materials
 
 ### For Teachers/Admins
 
-- Course creation and management
-- Live class scheduling and hosting
-- Student attendance tracking
-- Performance monitoring
-- Analytics dashboard
-- Resource management
+- **Course Creation**: Create and manage course content
+- **Live Class Scheduling**: Plan and host live teaching sessions
+- **Student Management**: Track student enrollment and performance
+- **Attendance Management**: Record and review student attendance
+- **Analytics Dashboard**: Access comprehensive teaching statistics
+- **Performance Tracking**: Monitor course effectiveness and student engagement
 
 ## Tech Stack
 
-- **Frontend**: React.js with Vite
-- **UI Framework**: TailwindCSS
+### Frontend
+
+- **Framework**: React.js with Vite
+- **Styling**: TailwindCSS
+- **State Management**: React Context API
 - **Animation**: Framer Motion
 - **Icons**: Lucide React
-- **Additional Libraries**:
-  - Chart.js for analytics
-  - React Router for navigation
-  - React Hot Toast for notifications
+- **Routing**: React Router v6
+- **Notifications**: React Hot Toast
+
+### Backend
+
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Database**: MongoDB with Mongoose
+- **Authentication**: JWT (JSON Web Tokens)
+- **API Documentation**: Swagger
 
 ## Getting Started
 
@@ -43,6 +52,7 @@ Digi Pathshala is a comprehensive digital learning platform that connects studen
 
 - Node.js (v14 or higher)
 - npm or yarn
+- MongoDB
 
 ### Installation
 
@@ -53,7 +63,7 @@ git clone https://github.com/yourusername/digi_pathashala_1.0.git
 cd digi_pathashala_1.0
 ```
 
-2. Install dependencies
+2. Install frontend dependencies
 
 ```bash
 npm install
@@ -61,7 +71,42 @@ npm install
 yarn install
 ```
 
-3. Start the development server
+3. Install backend dependencies
+
+```bash
+cd backend
+npm install
+# or
+yarn install
+```
+
+4. Configure environment variables
+
+Create a `.env` file in the root directory for frontend:
+
+```
+VITE_API_URL=http://localhost:4000/api
+```
+
+Create a `.env` file in the backend directory:
+
+```
+PORT=4000
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRE=30d
+EMAIL_SERVICE=your_email_service
+EMAIL_USERNAME=your_email_username
+EMAIL_PASSWORD=your_email_password
+EMAILJS_SERVICE_ID=your_emailjs_service_id
+EMAILJS_TEMPLATE_ID=your_emailjs_template_id
+EMAILJS_PUBLIC_KEY=your_emailjs_public_key
+EMAILJS_PRIVATE_KEY=your_emailjs_private_key
+```
+
+5. Start the development servers
+
+Frontend:
 
 ```bash
 npm run dev
@@ -69,56 +114,104 @@ npm run dev
 yarn dev
 ```
 
-### Environment Variables
+Backend:
 
-Create a `.env` file in the root directory:
-
-```env
-VITE_API_URL=your_api_url_here
+```bash
+cd backend
+npm run dev
+# or
+yarn dev
 ```
 
 ## Project Structure
 
 ```
-src/
-├── components/
-│   ├── admin/        # Admin-specific components
-│   ├── student/      # Student-specific components
-│   ├── common/       # Shared components
-│   └── auth/         # Authentication components
-├── pages/            # Page components
-├── context/          # React context files
-├── utils/           # Utility functions
-└── assets/          # Static assets
+digi_pathashala_1.0/
+├── src/                  # Frontend source code
+│   ├── components/       # Reusable components
+│   │   ├── admin/        # Admin-specific components
+│   │   ├── student/      # Student-specific components
+│   │   └── common/       # Shared components
+│   ├── context/          # React context providers
+│   ├── pages/            # Page components
+│   │   ├── admin/        # Admin pages
+│   │   └── student/      # Student pages
+│   └── assets/           # Static assets
+├── backend/              # Backend source code
+│   ├── src/              # Backend source files
+│   │   ├── controllers/  # API controllers
+│   │   ├── models/       # Database models
+│   │   ├── routes/       # API routes
+│   │   └── config/       # Configuration files
+│   └── package.json      # Backend dependencies
+└── package.json          # Frontend dependencies
 ```
 
 ## Key Features Implementation
 
 ### Authentication
 
-- Separate flows for students and teachers
-- Secure registration and login process
+- Separate flows for students and teachers/admins
+- JWT-based authentication
+- Password reset functionality with email verification
 - Role-based access control
 
 ### Course Management
 
-- Create and edit courses
-- Module-based course structure
-- Progress tracking
-- Resource attachments
+- Browse and filter available courses
+- Enroll in courses with progress tracking
+- Create and edit courses (for teachers)
+- Upload and manage course materials
 
 ### Live Classes
 
 - Schedule and manage live sessions
 - Real-time attendance tracking
-- Interactive features
+- Meeting link integration
+- Filtering by subject and date
+
+### Attendance System
+
+- Mark and track attendance per class
+- View attendance statistics and reports
+- Course-wise attendance breakdown
+- Attendance record visualization
 
 ### Analytics
 
 - Student performance tracking
 - Course completion rates
 - Attendance statistics
-- Engagement metrics
+- Teacher effectiveness metrics
+
+### User Profiles
+
+- Student profiles with learning statistics
+- Teacher profiles with teaching statistics
+- Profile customization options
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## Deployment
+
+The application can be deployed using various platforms:
+
+- Frontend: Vercel, Netlify, or GitHub Pages
+- Backend: Heroku, AWS, or Digital Ocean
+
+## Future Enhancements
+
+- Mobile application development
+- Integrated assessment system
+- AI-powered learning recommendations
+- Discussion forums and community features
+- Payment gateway integration for premium courses
+- Advanced video conferencing features
 
 ## Contributing
 
@@ -134,12 +227,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-Your Name - [@yourtwitter](https://twitter.com/yourtwitter)
-Project Link: [https://github.com/yourusername/digi_pathashala_1.0](https://github.com/yourusername/digi_pathashala_1.0)
+- Project Link: [https://github.com/yourusername/digi_pathashala_1.0](https://github.com/yourusername/digi_pathashala_1.0)
+- Website: [https://digipathashala.com](https://digipathashala.com)
 
 ## Acknowledgments
 
 - React.js documentation
 - TailwindCSS
 - Framer Motion
-- Other open-source libraries used in this project
+- MongoDB
+- Express.js
+- Node.js
+- All other open-source libraries used in this project
