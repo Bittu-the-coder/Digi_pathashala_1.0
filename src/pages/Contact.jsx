@@ -369,14 +369,14 @@ const Contact = () => {
           </div>
           <div className="rounded-xl overflow-hidden shadow-lg h-96 bg-gray-100">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.5606950710297!2d77.1967723!3d28.5598725!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce26f903969d7%3A0x8649d0c36a69e65f!2sNew%20Delhi%2C%20Delhi%2C%20India!5e0!3m2!1sen!2sus!4v1689425232289!5m2!1sen!2sus"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3558.6279834297644!2d83.4288937!3d26.730337299999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39915d0b591d7313%3A0x94d7c1ec8680c6b5!2sMMUT%20Main%20gate!5e0!3m2!1sen!2sin!4v1680689942022!5m2!1sen!2sin"
               width="100%"
               height="100%"
               style={{ border: 0 }}
               allowFullScreen=""
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Digi Pathshala Location"
+              title="MMMUT Main Gate Location"
             ></iframe>
           </div>
         </div>
