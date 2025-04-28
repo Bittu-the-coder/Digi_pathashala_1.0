@@ -14,7 +14,11 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(morgan('dev'));
+
+// Use morgan only in development
+if (process.env.NODE_ENV !== 'production') {
+  app.use(morgan('dev'));
+}
 
 // Routes
 app.use('/api/auth', require('./routes/auth.routes'));
@@ -26,7 +30,7 @@ app.use('/api/contact', require('./routes/contact.routes'));
 
 // Default route
 app.get('/', (req, res) => {
-  res.send('API is running...');
+  res.send('Digi Pathashala API is running...');
 });
 
 // Error handling middleware
@@ -41,6 +45,13 @@ app.use((err, req, res, next) => {
 
 // Start server
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+
+// For traditional hosting
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+// Export for serverless
+module.exports = app;

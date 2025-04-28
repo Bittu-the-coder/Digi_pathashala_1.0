@@ -9,7 +9,8 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "vercel-build": "echo 'Building for Vercel deployment'"
   },
   "dependencies": {
     "@emailjs/nodejs": "^5.0.2",
