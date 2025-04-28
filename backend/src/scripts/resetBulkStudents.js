@@ -5,8 +5,7 @@ const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 
 // MongoDB connection URI
-const mongoUri = "mongodb+srv://notevue:one111@cluster0.yfxesp3.mongodb.net/digi?retryWrites=true&w=majority&appName=Cluster0";
-
+const mongoUri = process.env.MONGO_URI
 // Connect to MongoDB
 mongoose.connect(mongoUri)
   .then(() => console.log('MongoDB connected'))

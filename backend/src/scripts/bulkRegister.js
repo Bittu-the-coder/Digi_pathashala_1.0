@@ -5,8 +5,7 @@ const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 
 // Verify environment variables are loaded
-const mongoUri = "mongodb+srv://notevue:one111@cluster0.yfxesp3.mongodb.net/digi?retryWrites=true&w=majority&appName=Cluster0";
-
+const mongoUri = process.env.MONGO_URI;
 // Log configuration for debugging
 console.log('Environment check:');
 console.log(`MongoDB URI available: ${mongoUri ? 'Yes' : 'No'}`);
