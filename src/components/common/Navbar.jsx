@@ -38,7 +38,7 @@ const Navbar = () => {
     { name: "About", href: "/about" },
     { name: "Courses", href: "/courses" },
     { name: "Resources", href: "/resources" },
-    { name: "Teachers", href: "/teachers" },
+    // { name: "Teachers", href: "/teachers" },
     { name: "Contact", href: "/contact" },
   ];
 
@@ -58,7 +58,7 @@ const Navbar = () => {
               className="h-10 w-10 object-cover rounded-full"
             />
             <div className="font-bold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-              Digi Pathashala
+              Digi Pathshala
             </div>
           </Link>
 

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Save, Bell, Lock, User } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
 
 const Settings = () => {
   const [notifications, setNotifications] = useState(true);
   const [emailUpdates, setEmailUpdates] = useState(true);
+  const { currentUser } = useAuth();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,7 +34,7 @@ const Settings = () => {
                 <input
                   type="text"
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  placeholder="Your display name"
+                  placeholder={currentUser.name}
                 />
               </div>
               <div>
@@ -42,7 +44,7 @@ const Settings = () => {
                 <input
                   type="email"
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  placeholder="your@email.com"
+                  placeholder={currentUser.email}
                 />
               </div>
             </div>

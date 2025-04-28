@@ -10,7 +10,7 @@ import {
   Save,
   ArrowLeft,
 } from "lucide-react";
-import { COURSE_CATEGORIES } from "../../utils/constants";
+import { COURSE_CATEGORIES } from "../utils/constants";
 import toast from "react-hot-toast";
 
 const CourseCreation = () => {
@@ -21,7 +21,7 @@ const CourseCreation = () => {
     title: "",
     description: "",
     category: "",
-    thumbnail: null,
+    thumbnail: "",
     thumbnailPreview: null,
     modules: [
       {
@@ -37,14 +37,15 @@ const CourseCreation = () => {
     setCourseData({ ...courseData, [name]: value });
   };
 
-  // Handle thumbnail upload
-  const handleThumbnailChange = (e) => {
+  // Handle thumbnail file upload
+  const handleThumbnailUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
+      const fileUrl = URL.createObjectURL(file);
       setCourseData({
         ...courseData,
-        thumbnail: file,
-        thumbnailPreview: URL.createObjectURL(file),
+        thumbnail: file.name, // Store filename or you could upload to server and get URL
+        thumbnailPreview: fileUrl,
       });
     }
   };
@@ -211,39 +212,32 @@ const CourseCreation = () => {
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Course Thumbnail
               </label>
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
-                {courseData.thumbnailPreview ? (
-                  <div>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleThumbnailUpload}
+                    className="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
+                    file:rounded-md file:border-0 file:text-sm file:font-semibold
+                    file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                  />
+                </div>
+                <input
+                  type="text"
+                  name="thumbnail"
+                  value={courseData.thumbnail}
+                  onChange={handleChange}
+                  placeholder="e.g. https://example.com/thumbnail.jpg"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+                {courseData.thumbnailPreview && (
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-500 mb-1">Preview:</p>
                     <img
                       src={courseData.thumbnailPreview}
                       alt="Course thumbnail preview"
-                      className="mx-auto h-32 object-cover rounded-lg"
-                    />
-                    <button
-                      type="button"
-                      className="mt-2 text-xs text-red-600 hover:text-red-800"
-                      onClick={() =>
-                        setCourseData({
-                          ...courseData,
-                          thumbnail: null,
-                          thumbnailPreview: null,
-                        })
-                      }
-                    >
-                      Remove
-                    </button>
-                  </div>
-                ) : (
-                  <div className="py-4">
-                    <Upload className="mx-auto h-10 w-10 text-gray-400" />
-                    <p className="mt-1 text-sm text-gray-500">
-                      Upload a cover image
-                    </p>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleThumbnailChange}
-                      className="mt-2 w-full text-sm text-gray-500 file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                      className="w-full max-w-[200px] h-auto border rounded-md"
                     />
                   </div>
                 )}

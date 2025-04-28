@@ -35,12 +35,30 @@ export const register = async (userData) => {
   }
 };
 
+export const registerBulkStudents = async (students) => {
+  try {
+    const response = await API.post('/auth/register-bulk', { students });
+    return response.data;
+  } catch (err) {
+    throw err.response?.data || { message: 'Bulk registration failed' };
+  }
+};
+
 export const getCurrentUser = async () => {
   try {
-    const response = await API.get('/users/me');
+    const response = await API.get('/users/profile');
     return response.data;
   } catch (err) {
     throw err.response?.data || { message: 'Failed to fetch user' };
+  }
+};
+
+export const updateUserProfile = async (profileData) => {
+  try {
+    const response = await API.put('/users/profile', profileData);
+    return response.data;
+  } catch (err) {
+    throw err.response?.data || { message: 'Failed to update profile' };
   }
 };
 
@@ -52,5 +70,39 @@ export const logout = async () => {
     // await API.post('/auth/logout');
   } catch (err) {
     throw err.response?.data || { message: 'Logout failed' };
+  }
+};
+
+export const forgotPassword = async (email) => {
+  try {
+    const response = await API.post('/auth/forgot-password', { email });
+    return response.data;
+  } catch (err) {
+    throw err.response?.data || { message: 'Password reset request failed' };
+  }
+};
+
+export const resetPassword = async (email, verificationCode, password) => {
+  try {
+    const response = await API.post('/auth/reset-password', {
+      email,
+      verificationCode,
+      password
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response?.data || { message: 'Password reset failed' };
+  }
+};
+
+export const verifyResetCode = async (email, verificationCode) => {
+  try {
+    const response = await API.post('/auth/verify-reset-code', {
+      email,
+      verificationCode
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response?.data || { message: 'Verification failed' };
   }
 };

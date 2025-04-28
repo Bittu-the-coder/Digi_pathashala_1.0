@@ -37,6 +37,9 @@ const StudentProgress = () => {
 
   return (
     <div className="space-y-6">
+      <h2 className="text-3xl font-bold text-gray-600 text-center mb-4">
+        Under Construction
+      </h2>
       <div>
         <h1 className="text-2xl font-bold text-gray-900 mb-2">My Progress</h1>
         <p className="text-gray-600">

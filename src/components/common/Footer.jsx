@@ -10,7 +10,7 @@ const Footer = () => {
           {/* Platform Info */}
           <div>
             <h3 className="text-xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
-              Digi Pathashala
+              Digi Pathshala
             </h3>
             <p className="text-gray-400 mb-4">
               Connecting students with expert teachers for quality online
@@ -36,7 +36,7 @@ const Footer = () => {
             </h3>
             <ul className="space-y-3">
               {[
-                { name: "Find Teachers", link: "/teachers" },
+                // { name: "Find Teachers", link: "/teachers" },
                 { name: "Browse Courses", link: "/courses" },
                 { name: "Study Resources", link: "/resources" },
                 { name: "Become a Teacher", link: "/admin-signin" },
@@ -58,7 +58,7 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
             <ul className="space-y-2 text-gray-400">
-              <li>support@digipathashala.edu</li>
+              <li>support@digiPathshala.edu</li>
               <li>+91 123 456 7890</li>
               <li>
                 <Link
@@ -74,7 +74,7 @@ const Footer = () => {
 
         <div className="border-t border-gray-800 pt-6">
           <p className="text-gray-500 text-sm text-center">
-            © {new Date().getFullYear()} Digi Pathashala. All rights reserved.
+            © {new Date().getFullYear()} Digi Pathshala. All rights reserved.
           </p>
         </div>
       </div>
