@@ -3,6 +3,7 @@ import { useClass } from "../../context/ClassContext";
 import { useParams, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import classService from "../../services/classService";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 const LiveClassEdit = () => {
   const { updateLiveClass } = useClass();
@@ -60,7 +61,7 @@ const LiveClassEdit = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   return (
