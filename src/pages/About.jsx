@@ -175,7 +175,8 @@ const About = () => {
               {
                 name: "Devansh Kumar",
                 role: "Chief Academic Officer",
-                image: "https://source.unsplash.com/random/300x300/?Man",
+                image:
+                  "https://media.licdn.com/dms/image/v2/D4D03AQFqnPqmw0WFqA/profile-displayphoto-shrink_100_100/B4DZZ8CEv9HIAU-/0/1745837641685?e=1751500800&v=beta&t=epYJiw2jkZ3Z_zpLern5L1Gv-f83ExnTQXjDzrCamQ8",
               },
               // {
               //   name: "Aditya Patel",
