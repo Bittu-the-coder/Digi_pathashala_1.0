@@ -15,6 +15,7 @@ import {
 import { motion } from "framer-motion";
 import image from "../assets/diamond.png";
 import logo from "../assets/logo.jpg";
+import SEO from "../components/common/SEO";
 
 // Animation variants
 const rotatingAnimation = {
@@ -627,6 +628,11 @@ const Footer = () => {
 function HomePage() {
   return (
     <div className="min-h-screen bg-white relative overflow-hidden">
+      <SEO
+        title="Online Learning Platform for Students"
+        description="Transform your learning journey with Digi Pathshala. Access high-quality online courses, live classes, and expert teachers. Start learning today!"
+        url="https://digipathshala.com"
+      />
       <Navbar />
       <Hero />
       <TeacherSearch />
